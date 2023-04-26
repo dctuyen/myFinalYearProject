@@ -2,7 +2,7 @@
 namespace App\Classes;
 
 use App\Library\Constants;
-use App\Mail\UserActivationEmail;
+use App\Mail\PasswordRequestEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
@@ -19,7 +19,15 @@ class ActivationService
     {
         $token = $user->remember_token;
         $user->activation_link = route('activation', ['token' => $token]);
-        $mailable = new UserActivationEmail($user);
+        $mailable = new PasswordRequestEmail($user);
+        Mail::to($user->email)->send($mailable);
+    }
+
+    public function sendPasswordRequestMail($user)
+    {
+        $token = $user->remember_token;
+        $user->activation_link = route('resetpassword', ['token' => $token, 'userid' => $user->id]);
+        $mailable = new PasswordRequestEmail($user);
         Mail::to($user->email)->send($mailable);
     }
 }

@@ -25,9 +25,7 @@
                                    oninput="this.setCustomValidity('')">
 
                             @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                         </span>
+                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
                     </div>
@@ -60,8 +58,8 @@
                                 <label class="form-check-label" for="remember">
                                     {{ __('Nhớ mật khẩu') }}
                                 </label>
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href=""
+                                @if (Route::has('forgotpassword'))
+                                    <a class="btn btn-link" href="{{ route('forgotpassword') }}"
                                        style="text-decoration: none; font-weight: bold">
                                         {{ __('Bạn quên mật khẩu ?') }}
                                     </a>

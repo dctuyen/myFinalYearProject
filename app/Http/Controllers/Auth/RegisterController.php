@@ -90,7 +90,7 @@ class RegisterController extends Controller
             'background_url' => $data['avtUrl'],
             'password' => Hash::make($data['password']),
             'remember_token' => Helper::getRandomText(40),
-            'created_time' => Helper::getCurrentTime()
+            'created_at' => Helper::getCurrentTime()
         ]);
     }
 
@@ -120,7 +120,7 @@ class RegisterController extends Controller
         $this->activationService->sendActivationMail($user);
         return redirect('/login')->with('success', 'Bạn đã đăng ký tài khoản thành công! Kiểm tra email để kích hoạt tài khoản');
     }
-    
+
     public function activateUser($token): Redirector|Application|RedirectResponse
     {
         $userActive = User::where('remember_token', $token)->where('status', '=', Constants::WAIT_STATUS)->first();

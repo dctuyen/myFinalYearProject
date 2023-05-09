@@ -42,6 +42,13 @@ Route::get('/activation/{token}', [App\Http\Controllers\Auth\RegisterController:
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.home');
+    Route::get('studentmanagement', [App\Http\Controllers\Admin\HomeController::class, 'studentManagement'])->name('admin.studentmanagement');
 })->middleware('isAdmin');
 
 Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('myaccount', [App\Http\Controllers\HomeController::class, 'myaccount'])->name('myaccount');
+Route::post('editaccount', [App\Http\Controllers\HomeController::class, 'editAccount'])->name('editaccount');
+
+Route::any('{url}', static function(){
+    return view('errors.404')->with(['uinfo' => auth()->user()]);
+})->where('url', '.*');

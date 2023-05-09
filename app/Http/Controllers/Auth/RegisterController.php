@@ -48,7 +48,7 @@ class RegisterController extends Controller
      */
     public function __construct(ActivationService $activationService)
     {
-        $this->middleware('guest');
+        parent::__construct();
         $this->activationService = $activationService;
     }
 
@@ -58,7 +58,7 @@ class RegisterController extends Controller
      * @param array $data
      * @return \Illuminate\Validation\Validator
      */
-    protected function validation(array $data): \Illuminate\Validation\Validator
+    protected function  validation(array $data): \Illuminate\Validation\Validator
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
@@ -104,33 +104,33 @@ class RegisterController extends Controller
      */
     public function new(Request $request)
     {
-         $this->validation($request->all());
+        $this->validation($request->all());
 
-        $fileName = null;
+        $fileLink = null;
         if ($request->hasFile('backgroundUrl')) {
             $fileName = random_int(10000, 99999) . '_avt.' . $request->file('backgroundUrl')->extension();
-            $request->file('backgroundUrl')->storeAs('public/images/avatars/', $fileName);
+            $fileLink = $request->file('backgroundUrl')->storeAs('/images/avatars', $fileName);
         }
 
-        $request->merge(['avtUrl' => $fileName]);
+        $request->merge(['avtUrl' => $fileLink]);
         $request->merge(['role_id' => Constants::STUDENT_ROLE_ID]);
         $request->merge(['status' => Constants::WAIT_STATUS]);
         $user = $this->create($request->all());
         event(new Registered($user));
         $this->activationService->sendActivationMail($user);
-        return redirect('/login')->with('success', 'Bạn đã đăng ký tài khoản thành công! Kiểm tra email để kích hoạt tài khoản');
+        return redirect()->route('login')->with('success', 'Bạn đã đăng ký tài khoản thành công! Kiểm tra email để kích hoạt tài khoản');
     }
 
     public function activateUser($token): Redirector|Application|RedirectResponse
     {
         $userActive = User::where('remember_token', $token)->where('status', '=', Constants::WAIT_STATUS)->first();
         if (!$userActive) {
-            return redirect('/login')->with('error', 'Kích hoạt tài khoản không thành công, link không tồn tại!');
+            return redirect()->route('login')->with('error', 'Kích hoạt tài khoản không thành công, link không tồn tại!');
         }
         $userActive->status = Constants::ACTIVATED_STATUS;
         $userActive->remember_token = Helper::getRandomText(40);
         $userActive->save();
-        return redirect('/login')->with('success', 'Kích hoạt tài khoản thành công, đăng nhập để tiếp tục!');
+        return redirect()->route('login')->with('success', 'Kích hoạt tài khoản thành công, đăng nhập để tiếp tục!');
     }
 }
 

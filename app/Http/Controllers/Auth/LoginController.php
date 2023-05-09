@@ -47,6 +47,7 @@ class LoginController extends Controller
      */
     public function __construct(ActivationService $activationService)
     {
+        parent::__construct();
         $this->middleware('guest')->except('logout');
         $this->activationService = $activationService;
     }
@@ -92,7 +93,7 @@ class LoginController extends Controller
         $user->remember_token = Helper::getRandomText(40);
         $user->save();
         $this->activationService->sendPasswordRequestMail($user);
-        return redirect('/login')->with('success', 'Yêu cầu thành công! vui lòng kiểm tra hòm thư!');
+        return redirect()->route('login')->with('success', 'Yêu cầu thành công! vui lòng kiểm tra hòm thư!');
     }
 
     public function resetpassword($userid, $token)
@@ -102,7 +103,7 @@ class LoginController extends Controller
         if ($user) {
             return view('auth.resetpassword')->with('user', $user);
         }
-        return redirect('/login')->with('error', 'Link hết thời hạn hoặc không hợp lệ, vui lòng thao tác lại!');
+        return redirect()->route('login')->with('error', 'Link hết thời hạn hoặc không hợp lệ, vui lòng thao tác lại!');
     }
 
     public function submitpassword(request $request)
@@ -113,8 +114,8 @@ class LoginController extends Controller
             $user->remember_token = Helper::getRandomText(40);
             $user->updated_at = Helper::getCurrentTime();
             $user->save();
-            return redirect('/login')->with('success', 'Đổi mật khẩu thành công');
+            return redirect()->route('login')->with('success', 'Đổi mật khẩu thành công');
         }
-        return redirect('/login')->with('error', 'Thất bại! vui lòng thử lại');
+        return redirect()->route('login')->with('error', 'Thất bại! vui lòng thử lại');
     }
 }

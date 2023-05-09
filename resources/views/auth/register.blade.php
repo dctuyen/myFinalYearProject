@@ -142,8 +142,7 @@
                                 <p class="btn btn-danger vertical-text col-md-3">Chọn Avatar</p>
                                 <div style="height: 160px;" class="col-md-9">
                                     <img
-                                        src="{{ asset('/images/avatars/62886_avt.jpg') }}"
-{{--                                        src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/avatar-cute-meo-con-than-chet.jpg"--}}
+                                        src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/avatar-cute-meo-con-than-chet.jpg"
                                         alt="" id="avatarView" style="width: 100%; height: 100%">
                                 </div>
                             </label>

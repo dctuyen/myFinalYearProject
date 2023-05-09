@@ -13,7 +13,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-
+    <link rel="icon" href="{{ asset('/images/logo.png') }}" type="image/png">
     <script src="https://kit.fontawesome.com/5ac8257925.js" crossorigin="anonymous"></script>
 
     <!-- Scripts -->

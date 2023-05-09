@@ -15,4 +15,8 @@ class Helper
     {
         return Str::random($length);
     }
-}
+
+    public static function IsNullOrEmptyString($question): bool
+    {
+        return (!isset($question) || trim($question) === '');
+    }}

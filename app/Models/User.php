@@ -50,21 +50,4 @@ class User extends Authenticatable
     {
         return hash_hmac('sha256', Str::random(40), config('app.key'));
     }
-
-//    public function createToken($user): void
-//    {
-//        if ($user->role_id === Constants::STUDENT_ROLE_ID) {
-//            $user->remember_token = $this->getToken();
-//            $user->save();
-//        }
-//    }
-//
-//    protected static function boot()
-//    {
-//        parent::boot();
-//
-//        static::saving(static function ($user) {
-//            $user->createToken($user);
-//        });
-//    }
 }

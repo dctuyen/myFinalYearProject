@@ -9,10 +9,12 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
 {
@@ -23,7 +25,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        parent::__construct();
     }
 
     /**
@@ -36,11 +37,16 @@ class HomeController extends Controller
         return view('home')->with('uinfo', auth()->user());
     }
 
-    public function myaccount(Request $request): View|Factory|RedirectResponse|Application
+    public function new(Request $request): View|Factory|RedirectResponse|Application
     {
         $uinfo = auth()->user();
         $userId = $request->query('id');
         $user = $uinfo;
+        $action = 'edit';
+        $roleId = null;
+
+        $routeName = Route::current()->uri;
+
         if ($request->filled('id')) {
             $user = User::where('id', '=', $userId)->first();
             if (!$user) {
@@ -50,12 +56,22 @@ class HomeController extends Controller
                 return redirect()->route('home')->with('error', 'Tài khoản không tồn tại!');
             }
         }
+        if ($routeName === 'newstudent') {
+            $action = 'new';
+            $roleId = Constants::STUDENT_ROLE_ID;
+        }
         $data = [
             'uinfo' => $uinfo,
-            'userEdit' => $user
+            'userEdit' => $user,
+            'action' => $action,
+            'role' => $roleId
         ];
-
-        return view('myaccount')->with($data);
+        if ($routeName === 'myaccount') {
+            $data['activeSidebar'] = 'myaccount';
+        } elseif ($routeName === 'editstudent' || $routeName === 'newstudent') {
+            $data['activeSidebar'] = 'studentmanagement';
+        }
+        return view('account')->with($data);
     }
 
     /**
@@ -65,13 +81,19 @@ class HomeController extends Controller
     {
         $uinfo = auth()->user();
         $userId = $request->userId;
-        $account = User::find($userId);
-        if (!$account) {
-            if ($uinfo->role_id === Constants::ADMIN_ROLE_ID) {
+        $action = $request->action;
+        if ($action == 'edit') {
+            $account = User::find($userId);
+            if (!$account) {
                 return redirect(url()->previous())->with('error', 'Tài khoản không tồn tại!');
             }
-            return redirect(url()->previous())->with('error', 'Tài khoản không tồn tại!');
+            $account->updated_at = Helper::getCurrentTime();
+        } else if ($action == 'new') {
+            $account = new User();
+            $account->role_id = $request->roleId;
+            $account->created_at = Helper::getCurrentTime();
         }
+
         $dataPost = $request->all();
         $account->first_name = $dataPost['firstname'];
         $account->last_name = $dataPost['lastname'];
@@ -88,10 +110,38 @@ class HomeController extends Controller
         if (!Helper::IsNullOrEmptyString($dataPost['password'])) {
             $account->password = Hash::make($dataPost['password']);
         }
-        $account->created_at = Helper::getCurrentTime();
-        if ($account->update()) {
-            return redirect(url()->previous())->with('success', 'Cập nhật thông tin thành công!');
+
+        if ($action == 'edit') {
+            if ($account->update()) {
+                return redirect(url()->previous())->with('success', 'Cập nhật thông tin thành công!');
+            }
+            return redirect(url()->previous())->with('error', 'Cập nhật thông tin thất bại!');
         }
-        return redirect(url()->previous())->with('success', 'Cập nhật thông tin thất bại!');
+        if ($account->save()) {
+            if ($request->roleId == Constants::STUDENT_ROLE_ID) {
+                return redirect()->route('admin.studentmanagement')->with('success', 'Tạo mới tài khoản thành công!');
+            }
+
+//      trang chủ quản lý giảng viên
+            return redirect()->route('admin.studentmanagement')->with('success', 'Tạo mới tài khoản thành công!');
+        }
+        if ($request->roleId == Constants::STUDENT_ROLE_ID) {
+            return redirect()->route('admin.studentmanagement')->with('error', 'Tạo mới tài khoản thất bại!');
+        }
+//      trang chủ quản lý giảng viên
+        return redirect()->route('admin.studentmanagement')->with('error', 'Tạo mới tài khoản thất bại!');
+    }
+
+    public
+    function deleteAccount($userId): JsonResponse
+    {
+        $user = User::where('id', '=', $userId);
+        if (!$user) {
+            return response()->json(['status' => 0, 'message' => 'Tài khoản không tồn tại!']);
+        }
+
+        $user->delete();
+        return response()->json(['status' => 1, 'message' => 'Xóa tài khoản thành công!']);
+
     }
 }

@@ -20,9 +20,10 @@
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>English Center - @yield('title')</title>
 
     <meta name="description" content=""/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('/images/logo.png') }}" type="image/png">
@@ -48,6 +49,9 @@
     <link rel="stylesheet" href="{{ asset('theme/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}"/>
 
     <link rel="stylesheet" href="{{ asset('theme/assets/vendor/libs/apex-charts/apex-charts.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+          integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+          crossorigin="anonymous"/>
     @vite(['public/css/all.css', 'public/css/custom.css'])
     @vite(['resources/css/app.css'])
     @vite(['public/css/all.css', 'public/css/v4-shims.css'])
@@ -66,7 +70,7 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme left-sidebar" style="overflow: hidden">
             <div class="app-brand demo">
                 <div class="logo dark-logo-bg visible-xs-* visible-sm-*">
                     <a class="row" href="{{ route('admin.home') }}">
@@ -90,7 +94,7 @@
                         <span>Trang chủ</span>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('myaccount') ? 'active' : '' }} ">
+                <li class="menu-item @if($activeSidebar === 'myaccount') active @endif">
                     <a href="{{ route('myaccount') }}" class="menu-link">
                         <i class="menu-icon tf-icons far fa-user"></i>
                         <span>Tài khoản của tôi</span>
@@ -100,13 +104,13 @@
                     <span class="menu-header-text">Quản lý</span>
                 </li>
                 <!-- Layouts -->
-                <li class="menu-item">
+                <li class="menu-item @if($activeSidebar === 'studentmanagement') active open @endif">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <i class="fas fa-graduation-cap"></i>&emsp;<span>Học Viên</span>
                     </a>
 
                     <ul class="menu-sub">
-                        <li class="menu-item">
+                        <li class="menu-item @if($activeSidebar === 'studentmanagement') active @endif">
                             <a href="{{ route('admin.studentmanagement') }}" class="menu-link">
                                 Quản lý học viên</a>
                         </li>
@@ -130,10 +134,17 @@
                     </a>
                 </div>
 
+                <!-- Search -->
+                <div class="navbar-nav align-items-center">
+                    <div class="nav-item d-flex align-items-center">
+                        <i class="bx bx-search fs-4 lh-0"></i>
+                        <input type="text" class="form-control border-0 shadow-none" placeholder="Tìm Kiếm...." aria-label="Tìm Kiếm....">
+                    </div>
+                </div>
+                <!-- /Search -->
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
-
                         <!-- User -->
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
@@ -156,7 +167,15 @@
                                             <div class="flex-grow-1">
                                                 <span
                                                     class="fw-semibold d-block">{{ $uinfo->first_name . ' ' . $uinfo->last_name }}</span>
-                                                <small class="text-muted">{{ $uinfo->role_id }}</small>
+                                                <small class="text-muted">
+                                                    @if ($uinfo->role_id === 1)
+                                                        Admin
+                                                    @elseif ($uinfo->role_id === 2)
+                                                        Học viên
+                                                    @elseif ($uinfo->role_id === 3)
+                                                        Giảng viên
+                                                    @endif
+                                                </small>
                                             </div>
                                         </div>
                                     </a>
@@ -174,8 +193,9 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item"
+                                       onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+                                       href="{{ route('logout') }}">
                                         <i class="bx bx-power-off me-2"></i>
                                         <span class="align-middle">Đăng xuất</span>
                                     </a>
@@ -192,18 +212,18 @@
             <!-- / Navbar -->
 
             <!-- Content wrapper -->
-            <div class="content-wrapper">
+            <div class="content-wrapper" style="overflow-y: auto">
 
                 <!-- Content -->
-                <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="container flex-grow-1 container-p-y">
                     @if(session('success'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-success alert-dismissible" role="alert">
                             {{ session('success') }}
                         </div>
                     @endif
 
                     @if(session('error'))
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
                             {{ session('error') }}
                         </div>
                     @endif
@@ -212,7 +232,7 @@
                 <!-- / Content -->
 
                 <!-- Footer -->
-                <footer class="content-footer footer bg-footer-theme">
+                <footer class="content-footer footer bg-light">
                     <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                         <div class="mb-2 mb-md-0">
                             ©
@@ -220,6 +240,14 @@
                                 document.write(new Date().getFullYear());
                             </script>
                             , made with ❤️ by Tuyendc
+                        </div>
+                        <div>
+                            <a class="dbtn btn-sm btn-outline-danger"
+                               onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+                               href="{{ route('logout') }}">
+                                <i class="bx bx-log-out-circle"></i>
+                                <span class="align-middle">Đăng xuất</span>
+                            </a>
                         </div>
                     </div>
                 </footer>
@@ -258,5 +286,10 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous"></script>
+@yield('script')
+
 </body>
 </html>

@@ -43,12 +43,19 @@ Route::get('/activation/{token}', [App\Http\Controllers\Auth\RegisterController:
 Route::group(['prefix' => 'admin'], function () {
     Route::get('home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.home');
     Route::get('studentmanagement', [App\Http\Controllers\Admin\HomeController::class, 'studentManagement'])->name('admin.studentmanagement');
+    Route::get('maketestdata', [App\Http\Controllers\Admin\HomeController::class, 'createDataUser'])->name('maketestdata');
+    Route::delete('deleteaccount/{userid}', [App\Http\Controllers\HomeController::class, 'deleteAccount'])->name('admin.deleteaccount');
 })->middleware('isAdmin');
 
-Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('myaccount', [App\Http\Controllers\HomeController::class, 'myaccount'])->name('myaccount');
-Route::post('editaccount', [App\Http\Controllers\HomeController::class, 'editAccount'])->name('editaccount');
+Route::match(['get'], 'home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::match(['get'], 'createaccount', [App\Http\Controllers\HomeController::class, 'new'])->name('createaccount');
+Route::match(['get'], 'account', [App\Http\Controllers\HomeController::class, 'new'])->name('account');
 
-Route::any('{url}', static function(){
+Route::match(['get'], 'myaccount', [App\Http\Controllers\HomeController::class, 'new'])->name('myaccount');
+Route::post('editaccount', [App\Http\Controllers\HomeController::class, 'editaccount'])->name('editaccount');
+Route::get('newstudent', [App\Http\Controllers\HomeController::class, 'new'])->name('admin.newstudent');
+
+
+Route::any('{url}', static function() {
     return view('errors.404')->with(['uinfo' => auth()->user()]);
 })->where('url', '.*');

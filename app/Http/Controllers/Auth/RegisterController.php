@@ -48,7 +48,6 @@ class RegisterController extends Controller
      */
     public function __construct(ActivationService $activationService)
     {
-        parent::__construct();
         $this->activationService = $activationService;
     }
 

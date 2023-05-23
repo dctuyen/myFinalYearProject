@@ -1,20 +1,20 @@
 @extends('layouts.app')
 @vite(['public/css/admin/home.css'])
-@section('title', 'Học viên')
+@section('title', 'Giảng viên')
 
 
 @section('content')
     <div class="card">
-        <h4 class="card-header">Danh Sách Học Viên</h4>
+        <h4 class="card-header">Danh Sách Giảng Viên</h4>
         <div class="row mx-4 mb-4">
-            <a href="{{ route('admin.newstudent') }}" class="btn btn-info col-md-2"><i class="fas fa-plus-circle"></i> Thêm mới</a>
+            <a href="{{ route('admin.newteacher') }}" class="btn btn-info col-md-2"><i class="fas fa-plus-circle"></i> Thêm mới</a>
             <p class="col-md-8"></p>
-            <p class="col-md-1 text-nowrap fw-bold info" style="padding-left: 5rem !important;">
+            <p class="col-md-1 text-nowrap fw-bold info" style="padding-left: 3rem !important;">
                 Tổng
-                @if ($students->total() > 0)
-                    {{ count($students->items()) }} / {{ $students->total() }}
+                @if ($teachers->total() > 0)
+                    {{ count($teachers->items()) }} / {{ $teachers->total() }}
                 @endif
-                học viên
+                giảng viên
             </p>
         </div>
         <div class="table-responsive text-nowrap mx-4">
@@ -32,45 +32,45 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($students as $key => $student)
+                @foreach($teachers as $key => $teacher)
                     <tr data-key="{{ $key }}">
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $student['first_name'] }}</td>
-                        <td>{{ $student['last_name'] }}</td>
+                        <td>{{ $teacher['first_name'] }}</td>
+                        <td>{{ $teacher['last_name'] }}</td>
                         <td>
                             Giới tính:
-                            @if ($student['sex'] === 'male')
+                            @if ($teacher['sex'] === 'male')
                                 Nam
                             @else
                                 Nữ
                             @endif
                             <br>
                             Ngày sinh:
-                            {{ $student['birthday'] }}
+                            {{ $teacher['birthday'] }}
                             <br>
                             Địa chỉ:
-                            {{ $student['address'] }}</td>
+                            {{ $teacher['address'] }}</td>
                         <td>
-                            Email: {{ $student['email'] }}
+                            Email: {{ $teacher['email'] }}
                             <br>
-                            SĐT: <strong>{{ $student['phone'] }}</strong>
+                            SĐT: <strong>{{ $teacher['phone'] }}</strong>
                         </td>
-                        <td><img src="{{ asset($student['background_url']) }}" style="height: 50px" alt=""></td>
+                        <td><img src="{{ asset($teacher['background_url']) }}" style="height: 50px" alt=""></td>
                         <td>
-                            @if ($student['status'] === 1)
+                            @if ($teacher['status'] === 1)
                                 <span class="badge bg-label-success me-1 text-capitalize">Hoạt động</span>
-                            @elseif ($student['status'] === 2)
+                            @elseif ($teacher['status'] === 2)
                                 <span class="badge bg-label-warning me-1 text-capitalize">Chờ kích hoạt</span>
-                            @elseif ($student['status'] === 3)
+                            @elseif ($teacher['status'] === 3)
                                 <span class="badge bg-label-danger me-1 text-capitalize">Không hoạt động</span>
                             @endif
-                            {{ $student['creator'] }}
-                            <br>{{ $student['created_at'] }}
+                            {{ $teacher['creator'] }}
+                            <br>{{ $teacher['created_at'] }}
                         </td>
                         <td>
-                            <a class="btn btn-warning" href="{{ route('admin.editaccount', $student['id']) }}"><i class="fal fa-edit"></i></a>
+                            <a class="btn btn-warning" href="{{ route('admin.editaccount', $teacher['id']) }}"><i class="fal fa-edit"></i></a>
                             <button class="btn btn-danger"
-                                    onclick="loadDeleteModal({{ $key }}, {{ $student['id'] }}, '{{ $student['email'] }}')"
+                                    onclick="loadDeleteModal({{ $key }}, {{ $teacher['id'] }}, '{{ $teacher['email'] }}')"
                             ><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
@@ -79,7 +79,7 @@
             </table>
         </div>
         <div class="demo-inline-spacing row mt-3">
-            {{ $students->links('layouts.pagination') }}
+            {{ $teachers->links('layouts.pagination') }}
         </div>
     </div>
 
@@ -102,7 +102,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn bg-white" data-bs-dismiss="modal"
-                            >Hủy
+                    >Hủy
                     </button>
                     <button type="button" class="btn btn-danger" id="modal-confirm_delete">Xóa</button>
                 </div>

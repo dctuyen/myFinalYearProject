@@ -34,20 +34,24 @@ class HomeController extends Controller
      */
     public function index(): View|Factory|RedirectResponse|Application
     {
-        return view('home')->with('uinfo', auth()->user());
+        $data = [
+            'uinfo' => auth()->user(),
+            'activeSidebar' => 'home'
+            ];
+        return view('home')->with($data);
     }
 
     public function new(Request $request): View|Factory|RedirectResponse|Application
     {
         $uinfo = auth()->user();
-        $userId = $request->query('id');
+        $userId = $request->id;
         $user = $uinfo;
         $action = 'edit';
         $roleId = null;
 
         $routeName = Route::current()->uri;
 
-        if ($request->filled('id')) {
+        if (!Helper::IsNullOrEmptyString($userId)) {
             $user = User::where('id', '=', $userId)->first();
             if (!$user) {
                 if ($uinfo->role_id === Constants::ADMIN_ROLE_ID) {
@@ -56,7 +60,7 @@ class HomeController extends Controller
                 return redirect()->route('home')->with('error', 'Tài khoản không tồn tại!');
             }
         }
-        if ($routeName === 'newstudent') {
+        if ($routeName === 'newstudent' || $routeName === 'newteacher/') {
             $action = 'new';
             $roleId = Constants::STUDENT_ROLE_ID;
         }
@@ -68,8 +72,10 @@ class HomeController extends Controller
         ];
         if ($routeName === 'myaccount') {
             $data['activeSidebar'] = 'myaccount';
-        } elseif ($routeName === 'editstudent' || $routeName === 'newstudent') {
+        } elseif ($routeName === 'newstudent' || ($routeName === 'editaccount/{id}' && $roleId === Constants::STUDENT_ROLE_ID)) {
             $data['activeSidebar'] = 'studentmanagement';
+        } elseif ($routeName === 'newteacher' || ($routeName === 'editaccount/{id}' && $roleId === Constants::TEACHER_ROLE_ID)) {
+            $data['activeSidebar'] = 'teachermanagement';
         }
         return view('account')->with($data);
     }
@@ -92,6 +98,8 @@ class HomeController extends Controller
             $account = new User();
             $account->role_id = $request->roleId;
             $account->created_at = Helper::getCurrentTime();
+            $account->email = $request->email;
+            $account->status = Constants::ACTIVATED_STATUS;
         }
 
         $dataPost = $request->all();
@@ -102,7 +110,7 @@ class HomeController extends Controller
         $account->address = $dataPost['address'];
         $account->phone = $dataPost['phone'];
 
-        if ($request->hasFile($dataPost['backgroundUrl'])) {
+        if ($request->hasFile('backgroundUrl')) {
             $fileName = random_int(10000, 99999) . '_avt.' . $request->file('backgroundUrl')->extension();
             $fileLink = $request->file('backgroundUrl')->storeAs('/images/avatars', $fileName);
             $account->background_url = $fileLink;

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @vite(['public/css/auth.css', 'public/js/auth.js'])
+@section('title', 'Tài khoản')
 
 @section('content')
     <div class="card container">
@@ -56,7 +57,7 @@
                                 {{ __('Ngày sinh') }}
                             </label>
                             <input id="birthday" type="date" required autocomplete="birthday"
-                                   value="@if($action === 'edit') {{ $userEdit->birthday }} @endif" class="form-control" name="birthday">
+                                   value="@if($action === 'edit'){{ $userEdit->birthday }}@endif" class="form-control" name="birthday">
                         </div>
                     </div>
                     <div class="row ms-0 mt-3">
@@ -162,7 +163,7 @@
 
             <div class="row ms-3">
                 <div class="mt-2 col-md-6">
-                    <button type="submit" class="btn btn-primary me-2">Lưu</button>
+                    <buttonau type="submit" class="btn btn-primary me-2">Lưu</buttonau>
                     <button type="reset" class="btn btn-danger">Hủy</button>
                 </div>
             </div>

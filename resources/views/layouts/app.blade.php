@@ -88,7 +88,7 @@
 
             <ul class="menu-inner py-1">
                 <!-- Dashboard -->
-                <li class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                <li class="menu-item {{ $activeSidebar === 'home' ? 'active' : '' }}">
                     <a href="{{ route('admin.home') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <span>Trang chủ</span>
@@ -113,6 +113,18 @@
                         <li class="menu-item @if($activeSidebar === 'studentmanagement') active @endif">
                             <a href="{{ route('admin.studentmanagement') }}" class="menu-link">
                                 Quản lý học viên</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item @if($activeSidebar === 'teachermanagement') active open @endif">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="fas fa-chalkboard-teacher"></i>&emsp;<span>Giảng viên</span>
+                    </a>
+
+                    <ul class="menu-sub">
+                        <li class="menu-item @if($activeSidebar === 'teachermanagement') active @endif">
+                            <a href="{{ route('admin.teachermanagement') }}" class="menu-link">
+                                Quản lý giảng viên</a>
                         </li>
                     </ul>
                 </li>

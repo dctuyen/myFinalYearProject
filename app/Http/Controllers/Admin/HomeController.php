@@ -33,6 +33,7 @@ class HomeController extends Controller
         $data = [];
 
         $data['uinfo'] = auth()->user();
+        $data['activeSidebar'] = 'home';
         return view('admin.home')->with($data);
     }
 
@@ -48,7 +49,7 @@ class HomeController extends Controller
 //            $student->save();
 //        }
         $allStudent = User::where('role_id', '=', Constants::STUDENT_ROLE_ID)
-            ->orderBy('id')->paginate(20);
+            ->orderBy('id', 'DESC')->paginate(20);
         $data = [
             'uinfo' => auth()->user(),
             'students' => $allStudent,
@@ -56,6 +57,23 @@ class HomeController extends Controller
         ];
         return view('admin.studentmanagement')->with($data);
     }
+
+
+    /**
+     * @throws Exception
+     */
+    public function teacherManagement(): Factory|View|Application
+    {
+        $allTeachers = User::where('role_id', '=', Constants::TEACHER_ROLE_ID)
+            ->orderBy('id', 'DESC')->paginate(20);
+        $data = [
+            'uinfo' => auth()->user(),
+            'teachers' => $allTeachers,
+            'activeSidebar' => 'teachermanagement'
+        ];
+        return view('admin.teachermanagement')->with($data);
+    }
+
 
     /**
      * @throws Exception
@@ -81,19 +99,23 @@ class HomeController extends Controller
                 'Vĩnh Phúc'
             ];
         $count = 0;
+        $i = 0;
         foreach ($objects as $ob) {
-            if ($count >= 50) {
+            if ($i < 400){
+                $i++;
+                continue;
+            }
+            if ($count >= 100) {
                 break;
             }
             $rand = random_int(1, 2);
-            $data = json_encode($ob);
+            $data = get_object_vars($ob);
 
             $sex = 'male';
             if ($rand === 1) {
                 $sex = 'female';
             }
-            $name = $data['first_name'] . $data['last_name'];
-            $email = strtolower(Helper::khongdau($name)) . '@gmail.com';
+            $email = strtolower(str_replace(' ', '', Helper::khongdau($data['full_name']))) . '@gmail.com';
             $phone = $sdt[array_rand($sdt)] . random_int(1000000, 9999999);
             $add = $address[array_rand($address)];
             User::create([
@@ -104,7 +126,7 @@ class HomeController extends Controller
                 'address' => $add,
                 'email' => $email,
                 'phone' => $phone,
-                'role_id' => Constants::STUDENT_ROLE_ID,
+                'role_id' => Constants::TEACHER_ROLE_ID,
                 'status' => Constants::ACTIVATED_STATUS,
                 'password' => Hash::make('12345678'),
                 'remember_token' => Helper::getRandomText(40),

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class RegisterController extends Controller
 {
@@ -107,6 +108,10 @@ class RegisterController extends Controller
 
         $fileLink = null;
         if ($request->hasFile('backgroundUrl')) {
+            $directoryPath = public_path() . '/images/avatars';
+            if (!File::exists($directoryPath)) {
+                File::makeDirectory($directoryPath, 0755, true); // Tham số thứ ba `true` để tạo cả các thư mục con nếu chúng chưa tồn tại
+            }
             $fileName = random_int(10000, 99999) . '_avt.' . $request->file('backgroundUrl')->extension();
             $fileLink = $request->file('backgroundUrl')->storeAs('/images/avatars', $fileName);
         }

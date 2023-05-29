@@ -42,8 +42,9 @@ Route::get('/activation/{token}', [App\Http\Controllers\Auth\RegisterController:
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.home');
-    Route::get('studentmanagement', [App\Http\Controllers\Admin\HomeController::class, 'studentManagement'])->name('admin.studentmanagement');
-    Route::get('teachermanagement', [App\Http\Controllers\Admin\HomeController::class, 'teachermanagement'])->name('admin.teachermanagement');
+    Route::get('student', [App\Http\Controllers\Admin\HomeController::class, 'studentManagement'])->name('admin.studentmanagement');
+    Route::get('teacher', [App\Http\Controllers\Admin\HomeController::class, 'teachermanagement'])->name('admin.teachermanagement');
+    Route::get('courses', [App\Http\Controllers\Admin\HomeController::class, 'coursemanagement'])->name('admin.coursemanagement');
     Route::get('maketestdata', [App\Http\Controllers\Admin\HomeController::class, 'createDataUser'])->name('maketestdata');
     Route::delete('deleteaccount/{userid}', [App\Http\Controllers\HomeController::class, 'deleteAccount'])->name('admin.deleteaccount');
 })->middleware('isAdmin');

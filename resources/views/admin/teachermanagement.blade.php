@@ -7,14 +7,16 @@
     <div class="card">
         <h4 class="card-header">Danh Sách Giảng Viên</h4>
         <div class="row mx-4 mb-4">
-            <a href="{{ route('admin.newteacher') }}" class="btn btn-info col-md-2"><i class="fas fa-plus-circle"></i> Thêm mới</a>
+            <a href="{{ route('admin.newteacher') }}" class="btn btn-info rounded-pill col-md-2">
+                <i class="fas fa-plus-circle"></i>
+                Thêm mới</a>
             <p class="col-md-8"></p>
             <p class="col-md-1 text-nowrap fw-bold info" style="padding-left: 3rem !important;">
-                Tổng
                 @if ($teachers->total() > 0)
+                    Tổng
                     {{ count($teachers->items()) }} / {{ $teachers->total() }}
+                    giảng viên
                 @endif
-                giảng viên
             </p>
         </div>
         <div class="table-responsive text-nowrap mx-4">
@@ -32,6 +34,15 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if($teachers->total() == 0)
+                    <tr>
+                        <td colspan="8">
+                            <div class="divider divider-success">
+                                <div class="divider-text text-lg">Không có dữ liệu</div>
+                            </div>
+                        </td>
+                    </tr>
+                @endif
                 @foreach($teachers as $key => $teacher)
                     <tr data-key="{{ $key }}">
                         <td>{{ $key + 1 }}</td>
@@ -61,15 +72,19 @@
                                 <span class="badge bg-label-success me-1 text-capitalize">Hoạt động</span>
                             @elseif ($teacher['status'] === 2)
                                 <span class="badge bg-label-warning me-1 text-capitalize">Chờ kích hoạt</span>
-                            @elseif ($teacher['status'] === 3)
+                            @elseif ($teacher['status'] === 0)
                                 <span class="badge bg-label-danger me-1 text-capitalize">Không hoạt động</span>
                             @endif
                             {{ $teacher['creator'] }}
                             <br>{{ $teacher['created_at'] }}
                         </td>
                         <td>
-                            <a class="btn btn-warning" href="{{ route('admin.editaccount', $teacher['id']) }}"><i class="fal fa-edit"></i></a>
-                            <button class="btn btn-danger"
+                            <a class="btn btn-warning rounded-pill btn-icon me-2"
+                               data-togle="tooltip" title="Chỉnh sửa"
+                               href="{{ route('admin.editaccount', $teacher['id']) }}"><i
+                                    class="fal fa-edit"></i></a>
+                            <button class="btn btn-danger rounded-pill btn-icon"
+                                    data-togle="tooltip" title="Xóa"
                                     onclick="loadDeleteModal({{ $key }}, {{ $teacher['id'] }}, '{{ $teacher['email'] }}')"
                             ><i class="fas fa-trash-alt"></i></button>
                         </td>

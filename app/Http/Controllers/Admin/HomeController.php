@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Library\Constants;
 use App\Library\Helper;
+use App\Models\Course;
 use App\Models\User;
 use DateTime;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -40,16 +42,26 @@ class HomeController extends Controller
     /**
      * @throws Exception
      */
-    public function studentManagement(): Factory|View|Application
+    public function studentManagement(Request $request): Factory|View|Application
     {
-//        $allStudent = User::where('role_id', '=', Constants::STUDENT_ROLE_ID)->get();
+//        $allStudent = User::all();
 //        foreach ($allStudent as $student) {
-//            $name = $student->first_name . $student->last_name;
-//            $student->email = str_replace(' ', '', strtolower(Helper::khongdau($name))) . '@gmail.com';
+//            $values = collect([0, 1, 2]);
+//            $randomStatus = $values->random() < 0.1 ? $values->random() : 1;
+//            $student->status = $randomStatus;
 //            $student->save();
 //        }
-        $allStudent = User::where('role_id', '=', Constants::STUDENT_ROLE_ID)
-            ->orderBy('id', 'DESC')->paginate(20);
+        $searchData = $request->search;
+        $allStudent = User::query();
+        if (!Helper::IsNullOrEmptyString($searchData)) {
+            $allStudent->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%$searchData%'")
+                ->orWhereRaw("email LIKE '%$searchData%'")
+                ->orWhereRaw("phone LIKE '%$searchData%'");
+        }
+
+        $allStudent->where('role_id', '=', Constants::STUDENT_ROLE_ID);
+
+        $allStudent = $allStudent->orderBy('id', 'DESC')->paginate(20);
         $data = [
             'uinfo' => auth()->user(),
             'students' => $allStudent,
@@ -62,10 +74,19 @@ class HomeController extends Controller
     /**
      * @throws Exception
      */
-    public function teacherManagement(): Factory|View|Application
+    public function teacherManagement(Request $request): Factory|View|Application
     {
-        $allTeachers = User::where('role_id', '=', Constants::TEACHER_ROLE_ID)
-            ->orderBy('id', 'DESC')->paginate(20);
+        $searchData = $request->search;
+        $allTeachers = User::query();
+        if (!Helper::IsNullOrEmptyString($searchData)) {
+            $allTeachers->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%$searchData%'")
+                ->orWhereRaw("email LIKE '%$searchData%'")
+                ->orWhereRaw("phone LIKE '%$searchData%'");
+        }
+
+        $allTeachers->where('role_id', '=', Constants::TEACHER_ROLE_ID);
+
+        $allTeachers = $allTeachers->orderBy('id', 'DESC')->paginate(20);
         $data = [
             'uinfo' => auth()->user(),
             'teachers' => $allTeachers,
@@ -74,6 +95,25 @@ class HomeController extends Controller
         return view('admin.teachermanagement')->with($data);
     }
 
+
+    public function courseManagement(Request $request)
+    {
+        $searchData = $request->search;
+        $allCourses = Course::query();
+        if (!Helper::IsNullOrEmptyString($searchData)) {
+            $allCourses->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%$searchData%'")
+                ->orWhereRaw("email LIKE '%$searchData%'")
+                ->orWhereRaw("phone LIKE '%$searchData%'");
+        }
+
+        $allCourses = $allCourses->orderBy('id', 'DESC')->paginate(20);
+        $data = [
+            'uinfo' => auth()->user(),
+            'courses' => $allCourses,
+            'activeSidebar' => 'coursemanagement'
+        ];
+        return view('admin.coursemanagement')->with($data);
+    }
 
     /**
      * @throws Exception
@@ -99,23 +139,22 @@ class HomeController extends Controller
                 'Vĩnh Phúc'
             ];
         $count = 0;
-        $i = 0;
         foreach ($objects as $ob) {
-            if ($i < 400){
-                $i++;
-                continue;
-            }
             if ($count >= 100) {
                 break;
             }
             $rand = random_int(1, 2);
             $data = get_object_vars($ob);
+            $email = strtolower(str_replace(' ', '', Helper::khongdau($data['full_name']))) . '@gmail.com';
+            $checkExits = User::where('email', '=', $email);
+            if ($checkExits) {
+                continue;
+            }
 
             $sex = 'male';
             if ($rand === 1) {
                 $sex = 'female';
             }
-            $email = strtolower(str_replace(' ', '', Helper::khongdau($data['full_name']))) . '@gmail.com';
             $phone = $sdt[array_rand($sdt)] . random_int(1000000, 9999999);
             $add = $address[array_rand($address)];
             User::create([

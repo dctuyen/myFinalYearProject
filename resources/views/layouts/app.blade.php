@@ -70,7 +70,8 @@
     <div class="layout-container">
         <!-- Menu -->
 
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme left-sidebar" style="overflow: hidden">
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme left-sidebar"
+               style="overflow: hidden">
             <div class="app-brand demo">
                 <div class="logo dark-logo-bg visible-xs-* visible-sm-*">
                     <a class="row" href="{{ route('admin.home') }}">
@@ -114,6 +115,14 @@
                             <a href="{{ route('admin.studentmanagement') }}" class="menu-link">
                                 Quản lý học viên</a>
                         </li>
+                        <li class="menu-item @if($activeSidebar === '') active @endif">
+                            <a href="{{ route('admin.studentmanagement') }}" class="menu-link">
+                                Học viên nợ học phí</a>
+                        </li>
+                        <li class="menu-item @if($activeSidebar === '') active @endif">
+                            <a href="{{ route('admin.studentmanagement') }}" class="menu-link">
+                                Chờ khai giảng</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="menu-item @if($activeSidebar === 'teachermanagement') active open @endif">
@@ -125,6 +134,26 @@
                         <li class="menu-item @if($activeSidebar === 'teachermanagement') active @endif">
                             <a href="{{ route('admin.teachermanagement') }}" class="menu-link">
                                 Quản lý giảng viên</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item @if($activeSidebar === 'coursemanagement') active open @endif">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="far fa-list-ul"></i>&emsp;<span>Danh mục</span>
+                    </a>
+
+                    <ul class="menu-sub">
+                        <li class="menu-item @if($activeSidebar === 'coursemanagement') active @endif">
+                            <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
+                                Danh sách khóa học</a>
+                        </li>
+                        <li class="menu-item @if($activeSidebar === '') active @endif">
+                            <a href="#" class="menu-link">
+                                Tài liệu</a>
+                        </li>
+                        <li class="menu-item @if($activeSidebar === '') active @endif">
+                            <a href="#" class="menu-link">
+                                Quản lý phòng học</a>
                         </li>
                     </ul>
                 </li>
@@ -147,17 +176,43 @@
                 </div>
 
                 <!-- Search -->
-                <div class="navbar-nav align-items-center">
-                    <div class="nav-item d-flex align-items-center">
-                        <i class="bx bx-search fs-4 lh-0"></i>
-                        <input type="text" class="form-control border-0 shadow-none" placeholder="Tìm Kiếm...." aria-label="Tìm Kiếm....">
-                    </div>
+                <div class="navbar-nav d-flex">
+                    <input class="form-control me-2" type="search" id="searchData"
+                           value="{{ request()->query('search') }}"
+                           placeholder="Tìm kiếm" aria-label="Tìm kiếm">
+                    <button class="btn btn-outline-primary" id="btnSearch" data-togle="tooltip" title="Tìm kiếm"><i class="fas fa-search"></i></button>
                 </div>
                 <!-- /Search -->
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <!-- User -->
+                        <li class="nav-item navbar-dropdown dropdown me-3">
+                            <div class="demo-inline-spacing">
+                                <div class="btn-group" style="margin: 0 !important">
+                                    <button
+                                        type="button"
+                                        class="btn rounded-pill btn-icon dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fas fa-bell fa-lg" style="color: #d99100;"></i>
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">5</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider"/>
+                                        </li>
+                                        <li><a class="dropdown-item" href="javascript:void(0);">Xem tất cả thông báo</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </li>
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                data-bs-toggle="dropdown">
@@ -269,6 +324,7 @@
             </div>
             <!-- Content wrapper -->
         </div>
+
         <!-- / Layout page -->
     </div>
 
@@ -277,6 +333,11 @@
 </div>
 <!-- / Layout wrapper -->
 
+<div class="buy-now">
+    <button id="scrollTop" title="Go to top" class="btn btn-danger btn-buy-now btn-icon rounded-pill">
+        <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </button>
+</div>
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 <script src="{{ asset('theme/assets/vendor/libs/jquery/jquery.js') }}"></script>
@@ -301,6 +362,52 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $('#btnSearch').on('click', function () {
+        let currentUrl = window.location.href;
+        let realUrl = currentUrl.split("?")[0];
+        let searchData = $('#searchData').val();
+        window.location.href = realUrl + '?search=' + searchData;
+    });
+
+    Number.prototype.formatMoney = function (c, d, t) {
+        var n = this,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d === undefined ? "." : d,
+            t = t === undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    };
+
+    let scrollTop = $("#scrollTop");
+    $(scrollTop).css("display", "none");
+
+    //Show/hide button GO TO TOP when scrolling
+    $(window).scroll(function () {
+        let topPos = $(this).scrollTop();
+        // if user scrolls down - show scroll to top button
+        if (topPos > 100) {
+            $(scrollTop).css("display", "block");
+        } else {
+            $(scrollTop).css("display", "none");
+        }
+    });
+
+    //Click button to scroll to top
+    $(scrollTop).click(function () {
+        $('html, body').animate({
+            scrollTop: 0
+        }, 500);
+        return false;
+    });
+
+    $('.format-money').each(function () {
+        $(this).text(parseInt($(this).text()).formatMoney(0, ',', '.'));
+    });
+</script>
 @yield('script')
 
 </body>

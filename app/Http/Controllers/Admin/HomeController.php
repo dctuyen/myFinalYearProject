@@ -7,11 +7,11 @@ use App\Library\Constants;
 use App\Library\Helper;
 use App\Models\Course;
 use App\Models\User;
-use DateTime;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -62,6 +62,12 @@ class HomeController extends Controller
         $allStudent->where('role_id', '=', Constants::STUDENT_ROLE_ID);
 
         $allStudent = $allStudent->orderBy('id', 'DESC')->paginate(20);
+        foreach ($allStudent as $student) {
+            $creator = User::find($student->creator);
+            if ($creator) {
+                $student->creator_email = $creator->email;
+            }
+        }
         $data = [
             'uinfo' => auth()->user(),
             'students' => $allStudent,
@@ -87,6 +93,12 @@ class HomeController extends Controller
         $allTeachers->where('role_id', '=', Constants::TEACHER_ROLE_ID);
 
         $allTeachers = $allTeachers->orderBy('id', 'DESC')->paginate(20);
+        foreach ($allTeachers as $teacher) {
+            $creator = User::find($teacher->creator);
+            if ($creator) {
+                $teacher->creator_email = $creator->email;
+            }
+        }
         $data = [
             'uinfo' => auth()->user(),
             'teachers' => $allTeachers,
@@ -113,6 +125,55 @@ class HomeController extends Controller
             'activeSidebar' => 'coursemanagement'
         ];
         return view('admin.coursemanagement')->with($data);
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    public function course(Request $request): View|Factory|RedirectResponse|Application
+    {
+        $data = [
+            'uinfo' => auth()->user(),
+            'activeSidebar' => 'coursemanagement'
+        ];
+        $data['action'] = 'new';
+        $courseId = $request->id;
+        if (!Helper::IsNullOrEmptyString($courseId)) {
+            $courseEdit = Course::where('id', '=', $courseId)->first();
+            if (!$courseEdit)
+                return redirect()->route('admin.coursemanagement')->with('error', 'Khóa học không tồn tại!');
+            $data['course'] = $courseEdit;
+            $data['action'] = 'edit';
+        }
+        return view('admin.course')->with($data);
+    }
+
+    public function saveCourse(Request $request)
+    {
+        $courseId = $request->courseid;
+        if (!Helper::IsNullOrEmptyString($courseId)) {
+            $course = Course::where('id', '=', $courseId)->first();
+            if (!$course) {
+                return redirect()->route('admin.coursemanagement')->with('error', 'Khóa học không tồn tại!');
+            }
+            $course->updated_at = Helper::getCurrentTime();
+        } else {
+            $course = new Course();
+            $course->created_at = Helper::getCurrentTime();
+        }
+        $course->name = $request->name;
+        $course->duration = $request->duration;
+        $course->lesson_count = $request->lesson_count;
+        $course->course_type = $request->course_type;
+        $course->level = $request->level;
+        $course->price = $request->price;
+        $course->status = $request->status;
+        if ($course->save()) {
+            return redirect()->route('admin.coursemanagement')->with('success', 'Lưu thông tin khóa học thành công!');
+        }
+        return redirect()->route('admin.coursemanagement')->with('error', 'Khóa học không tồn tại!');
+
     }
 
     /**

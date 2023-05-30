@@ -68,6 +68,7 @@
                         </td>
                         <td><img src="{{ asset($teacher['background_url']) }}" style="height: 50px" alt=""></td>
                         <td>
+                            {{ $teacher['creator_email'] }}<br>
                             @if ($teacher['status'] === 1)
                                 <span class="badge bg-label-success me-1 text-capitalize">Hoạt động</span>
                             @elseif ($teacher['status'] === 2)
@@ -75,7 +76,6 @@
                             @elseif ($teacher['status'] === 0)
                                 <span class="badge bg-label-danger me-1 text-capitalize">Không hoạt động</span>
                             @endif
-                            {{ $teacher['creator'] }}
                             <br>{{ $teacher['created_at'] }}
                         </td>
                         <td>

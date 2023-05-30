@@ -180,7 +180,8 @@
                     <input class="form-control me-2" type="search" id="searchData"
                            value="{{ request()->query('search') }}"
                            placeholder="Tìm kiếm" aria-label="Tìm kiếm">
-                    <button class="btn btn-outline-primary" id="btnSearch" data-togle="tooltip" title="Tìm kiếm"><i class="fas fa-search"></i></button>
+                    <button class="btn btn-outline-primary" id="btnSearch" data-togle="tooltip" title="Tìm kiếm"><i
+                            class="fas fa-search"></i></button>
                 </div>
                 <!-- /Search -->
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
@@ -371,6 +372,13 @@
         window.location.href = realUrl + '?search=' + searchData;
     });
 
+    $('#searchData').on('keydown', function () {
+        if (event.keyCode === 13) {
+            // Kiểm tra nếu là phím Enter (keyCode = 13)
+            $('#btnSearch').click();
+        }
+    });
+
     Number.prototype.formatMoney = function (c, d, t) {
         var n = this,
             c = isNaN(c = Math.abs(c)) ? 2 : c,
@@ -406,6 +414,7 @@
 
     $('.format-money').each(function () {
         $(this).text(parseInt($(this).text()).formatMoney(0, ',', '.'));
+        $(this).val(parseInt($(this).val()).formatMoney(0, ',', '.'));
     });
 </script>
 @yield('script')

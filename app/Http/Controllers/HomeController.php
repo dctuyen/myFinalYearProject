@@ -48,7 +48,7 @@ class HomeController extends Controller
     public function new(Request $request): View|Factory|RedirectResponse|Application
     {
         $uinfo = auth()->user();
-        $userId = $wid;
+        $userId = $request->id;
         $user = $uinfo;
         $action = 'edit';
         $roleId = null;
@@ -91,9 +91,9 @@ class HomeController extends Controller
 
         if ($routeName === 'myaccount') {
             $data['activeSidebar'] = 'myaccount';
-        } elseif ($routeName === 'newstudent' || $routeName === 'editaccount/{id}') {
+        } elseif ($routeName === 'newstudent' || $routeName === 'account/edit/{id}') {
             $data['activeSidebar'] = 'studentmanagement';
-        } elseif ($routeName === 'newteacher' || $routeName === 'editaccount/{id}') {
+        } elseif ($routeName === 'newteacher' || $routeName === 'account/edit/{id}') {
             $data['activeSidebar'] = 'teachermanagement';
         }
         return view('account')->with($data);
@@ -142,7 +142,7 @@ class HomeController extends Controller
             $account->password = Hash::make($dataPost['password']);
         }
         if (!Helper::IsNullOrEmptyString($dataPost['certificateJson'])) {
-            $directoryPath = public_path() . '/images/certificates';
+            $directoryPath = public_path() . '/files/certificates';
             if (!File::exists($directoryPath)) {
                 File::makeDirectory($directoryPath, 0755, true); // Tham số thứ ba `true` để tạo cả các thư mục con nếu chúng chưa tồn tại
             }
@@ -151,10 +151,10 @@ class HomeController extends Controller
                 $cert = get_object_vars($cert);
                 if ($request->hasFile($cert['fileKey'])) {
                     $fileName = date('Ymd') . 'cert' . random_int(1000, 9999) . '.' . $request->file($cert['fileKey'])->extension();
-                    $fileLink = $request->file($cert['fileKey'])->storeAs('/images/certificates', $fileName);
+                    $fileLink = $request->file($cert['fileKey'])->storeAs('/files/certificates', $fileName);
                     $listCert[$key]->fileUrl = $fileLink;
-                    unset($listCert[$key]->fileKey);
                 }
+                unset($listCert[$key]->fileKey);
             }
             $account->certificate = json_encode($listCert, JSON_THROW_ON_ERROR);
         }
@@ -168,7 +168,7 @@ class HomeController extends Controller
             if ($request->roleId == Constants::STUDENT_ROLE_ID) {
                 return redirect()->route('admin.studentmanagement')->with('success', 'Tạo mới tài khoản thành công!');
             }
-        //      trang chủ quản lý giảng viên
+            //      trang chủ quản lý giảng viên
             return redirect()->route('admin.teachermanagement')->with('success', 'Tạo mới tài khoản thành công!');
         }
         if ($request->roleId == Constants::STUDENT_ROLE_ID) {
@@ -178,8 +178,7 @@ class HomeController extends Controller
         return redirect()->route('admin.teachermanagement')->with('error', 'Tạo mới tài khoản thất bại!');
     }
 
-    public
-    function deleteAccount($userId): JsonResponse
+    public function deleteAccount($userId): JsonResponse
     {
         $user = User::where('id', '=', $userId);
         if (!$user) {

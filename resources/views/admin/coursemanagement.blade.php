@@ -7,7 +7,7 @@
     <div class="card">
         <h4 class="card-header">Danh Sách Khóa Học</h4>
         <div class="row mx-4 mb-4">
-            <a href="{{ route('admin.newteacher') }}" class="btn btn-info rounded-pill col-md-2">
+            <a href="{{ route('admin.newcourse') }}" class="btn btn-info rounded-pill col-md-2">
                 <i class="fas fa-plus-circle"></i>
                 Thêm mới</a>
             <p class="col-md-8"></p>
@@ -29,8 +29,8 @@
                     <th>Số lượng</th>
                     <th>Loại Khóa</th>
                     <th>Level</th>
-                    <th>Giá</th>
-                    <th>Lượt Yêu Thích</th>
+                    <th>Giá (VNĐ)</th>
+                    <th>Yêu Thích</th>
                     <th>Người Tạo</th>
                     <th>Thao Tác</th>
                 </tr>
@@ -60,7 +60,6 @@
                         <td>
                             {{ $course['course_type'] }}
                         </td>
-
                         <td>
                             {{ $course['level'] }}
                         </td>
@@ -84,7 +83,7 @@
                         <td>
                             <a class="btn btn-warning rounded-pill btn-icon me-2"
                                data-togle="tooltip" title="Chỉnh sửa"
-                               href="{{ route('admin.editaccount', $course['id']) }}"><i
+                               href="{{ route('admin.editcourse', $course['id']) }}"><i
                                     class="fal fa-edit"></i></a>
                             <button class="btn btn-danger rounded-pill btn-icon"
                                     data-togle="tooltip" title="Xóa"

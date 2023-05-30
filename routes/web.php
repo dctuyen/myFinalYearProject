@@ -45,6 +45,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('student', [App\Http\Controllers\Admin\HomeController::class, 'studentManagement'])->name('admin.studentmanagement');
     Route::get('teacher', [App\Http\Controllers\Admin\HomeController::class, 'teachermanagement'])->name('admin.teachermanagement');
     Route::get('courses', [App\Http\Controllers\Admin\HomeController::class, 'coursemanagement'])->name('admin.coursemanagement');
+    Route::get('course/new', [App\Http\Controllers\Admin\HomeController::class, 'course'])->name('admin.newcourse');
+    Route::get('course/edit/{id}', [App\Http\Controllers\Admin\HomeController::class, 'course'])->name('admin.editcourse');
+
+    Route::post('savecourse', [App\Http\Controllers\Admin\HomeController::class, 'saveCourse'])->name('admin.savecourse');
+
     Route::get('maketestdata', [App\Http\Controllers\Admin\HomeController::class, 'createDataUser'])->name('maketestdata');
     Route::delete('deleteaccount/{userid}', [App\Http\Controllers\HomeController::class, 'deleteAccount'])->name('admin.deleteaccount');
 })->middleware('isAdmin');
@@ -54,8 +59,8 @@ Route::match(['get'], 'home', [App\Http\Controllers\HomeController::class, 'inde
 
 Route::get( 'createaccount', [App\Http\Controllers\HomeController::class, 'new'])->name('createaccount');
 Route::get( 'account', [App\Http\Controllers\HomeController::class, 'new'])->name('account');
-Route::get( 'myaccount', [App\Http\Controllers\HomeController::class, 'new'])->name('myaccount');
-Route::get('editaccount/{id}', [App\Http\Controllers\HomeController::class, 'new'])->name('admin.editaccount');
+Route::get( 'account/my', [App\Http\Controllers\HomeController::class, 'new'])->name('myaccount');
+Route::get('account/edit/{id}', [App\Http\Controllers\HomeController::class, 'new'])->name('admin.editaccount');
 
 /* Student info */
 Route::get('newstudent', [App\Http\Controllers\HomeController::class, 'new'])->name('admin.newstudent');
@@ -70,5 +75,5 @@ Route::post('editaccount', [App\Http\Controllers\HomeController::class, 'editacc
 
 
 Route::any('{url}', static function() {
-    return view('errors.404')->with(['uinfo' => auth()->user()]);
+    return view('errors.404')->with(['uinfo' => auth()->user(), 'activeSidebar' => 'null']);
 })->where('url', '.*');

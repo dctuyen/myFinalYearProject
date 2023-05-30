@@ -200,11 +200,15 @@
                                     </td>
                                     <td class="input-group">
                                         <input type="file" class="form-control" id="fileCertificate{{ $key }}"
+                                               name="fileCertificate{{ $key }}"
                                                value="{{ $certificate['fileUrl'] }}">
-                                        <a href="{{ asset($certificate['fileUrl']) }}" class="btn btn-outline-success"
+                                        <a href="javascript:void(0)"
+                                           onclick="window.open('{{ asset($certificate['fileUrl']) }}', '_blank', 'width=1000,height=800')"
+                                           class="btn btn-outline-success"
                                            target="_blank" data-toggle="tooltip" title="Xem chứng chỉ">
                                             Xem chứng chỉ <i class="fas fa-eye"></i>
                                         </a>
+                                        <input type="text" id="fileUrl{{ $key }}" value="{{ $certificate['fileUrl'] }}" hidden>
                                     </td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-outline-danger" id="deleteCert{{ $key }}"
@@ -304,16 +308,17 @@
                     let cell = row.cells[j];
                     let columnHeader = table.rows[0].cells[j].innerText;
                     let input = cell.querySelector('input');
-                    if (j === row.cells.length - 2) {
-                        debugger;
+                    if (j === row.cells.length - 2)
                         rowData['fileKey'] = input.id;
-                    } else
+                    else
                         rowData[columnHeader.toLowerCase()] = input.value;
                 }
+                rowData['fileUrl'] = $(`#fileUrl${i - 1}`).val();
                 data.push(rowData);
             }
             let jsonData = JSON.stringify(data);
             $('#certificateJson').val(jsonData);
+            debugger;
         });
     </script>
 @endsection

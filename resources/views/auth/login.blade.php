@@ -18,10 +18,9 @@
                         </label>
 
                         <div class="col-md-8">
-                            <input id="email" type="email"
-                                   class="form-control @error('email') is-invalid @enderror" name="email"
-                                   value="{{ old('email') }}" required autocomplete="email" autofocus
-                                   oninvalid="this.setCustomValidity('Vui lòng nhập tài khoản')"
+                            <input id="email" class="form-control @error('email') is-invalid @enderror"
+                                   name="email" value="{{ old('email') }}" required autocomplete="email"
+                                   oninvalid="this.setCustomValidity('Vui lòng nhập tài khoản')" autofocus
                                    oninput="this.setCustomValidity('')">
 
                             @error('email')

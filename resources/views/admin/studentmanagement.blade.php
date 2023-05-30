@@ -67,6 +67,7 @@
                         </td>
                         <td><img src="{{ asset($student['background_url']) }}" style="height: 50px" alt=""></td>
                         <td>
+                            {{ $student['creator_email'] }}<br>
                             @if ($student['status'] === 1)
                                 <span class="badge bg-label-success me-1 text-capitalize">Hoạt động</span>
                             @elseif ($student['status'] === 2)
@@ -74,7 +75,6 @@
                             @elseif ($student['status'] === 0)
                                 <span class="badge bg-label-danger me-1 text-capitalize">Không hoạt động</span>
                             @endif
-                            {{ $student['creator'] }}
                             <br>{{ $student['created_at'] }}
                         </td>
                         <td>
@@ -114,7 +114,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn bg-white" data-bs-dismiss="modal"
-                            >Hủy
+                    >Hủy
                     </button>
                     <button type="button" class="btn btn-danger" id="modal-confirm_delete">Xóa</button>
                 </div>

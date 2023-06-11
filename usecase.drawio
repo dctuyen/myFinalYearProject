@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-11T17:23:22.768Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="Cu49QUSlx3tqSW6unPqE" version="21.3.8" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-06-11T17:26:17.406Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="cIUjsZqbszcA0gL_5ijc" version="21.3.8" type="github" pages="2">
   <diagram id="tjxPVpLADmy-XOFSmjK_" name="Usecase tổng quát">
     <mxGraphModel dx="1687" dy="2058" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -181,8 +181,8 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="vs87bcSLi5K3XAAMlahJ" name="Trang-2">
-    <mxGraphModel dx="1434" dy="792" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+  <diagram id="vs87bcSLi5K3XAAMlahJ" name="Usecase admin">
+    <mxGraphModel dx="1434" dy="756" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />

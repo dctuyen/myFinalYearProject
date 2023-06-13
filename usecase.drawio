@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-13T16:16:10.761Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="_m1IDL5VmbwD7e0wpRB9" version="21.3.8" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2023-06-13T16:16:30.261Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="3ot0v4hNUz2VPNNUdS1U" version="21.3.8" type="github" pages="5">
   <diagram id="tjxPVpLADmy-XOFSmjK_" name="Usecase tổng quát">
     <mxGraphModel dx="1434" dy="756" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -850,7 +850,7 @@
           <mxGeometry x="-169" y="489" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="sutRTGWW1WeU0SELkPgl-1" value="Quản lý ca học" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=middle;" parent="1" vertex="1">
-          <mxGeometry x="-667" y="532" width="130" height="60" as="geometry" />
+          <mxGeometry x="-616" y="525" width="130" height="60" as="geometry" />
         </mxCell>
         <mxCell id="sutRTGWW1WeU0SELkPgl-2" value="" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="km4FK2wFaGmQXGa-ibCI-3" target="sutRTGWW1WeU0SELkPgl-1" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -871,7 +871,7 @@
         <mxCell id="sutRTGWW1WeU0SELkPgl-5" value="Thêm ca học" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=middle;" parent="1" vertex="1">
           <mxGeometry x="-697" y="644" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="sutRTGWW1WeU0SELkPgl-6" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;" parent="1" source="sutRTGWW1WeU0SELkPgl-8" target="sutRTGWW1WeU0SELkPgl-1" edge="1">
+        <mxCell id="sutRTGWW1WeU0SELkPgl-6" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;dashed=1;" parent="1" source="sutRTGWW1WeU0SELkPgl-8" target="sutRTGWW1WeU0SELkPgl-1" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-420" y="498" as="targetPoint" />
           </mxGeometry>
@@ -884,7 +884,7 @@
         <mxCell id="sutRTGWW1WeU0SELkPgl-8" value="Sửa thông tin" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=middle;" parent="1" vertex="1">
           <mxGeometry x="-542" y="644" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="sutRTGWW1WeU0SELkPgl-9" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;dashed=1;entryX=0.723;entryY=0.967;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="sutRTGWW1WeU0SELkPgl-11" target="sutRTGWW1WeU0SELkPgl-1" edge="1">
+        <mxCell id="sutRTGWW1WeU0SELkPgl-9" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;dashed=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="sutRTGWW1WeU0SELkPgl-11" target="sutRTGWW1WeU0SELkPgl-1" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-480" y="547" as="targetPoint" />
           </mxGeometry>

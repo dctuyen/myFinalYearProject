@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-14T14:15:26.311Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="Ar9_6r8_T_C0W8du7OMr" version="21.3.8" type="github" pages="7">
+<mxfile host="app.diagrams.net" modified="2023-06-14T14:16:05.743Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="DkT6ItperEdpoE39JsiU" version="21.3.8" type="github" pages="7">
   <diagram id="tjxPVpLADmy-XOFSmjK_" name="Usecase tổng quát">
     <mxGraphModel dx="1434" dy="756" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -1186,7 +1186,7 @@
           <mxGeometry x="89.5" y="220" width="200" height="40" as="geometry" />
         </mxCell>
         <mxCell id="rm3pgVPJzHhv16Yu149n-11" value="" style="rhombus;strokeWidth=2;fontSize=15;" vertex="1" parent="rm3pgVPJzHhv16Yu149n-6">
-          <mxGeometry x="339" y="215" width="90" height="50" as="geometry" />
+          <mxGeometry x="333" y="215" width="90" height="50" as="geometry" />
         </mxCell>
         <mxCell id="rm3pgVPJzHhv16Yu149n-12" value="" style="ellipse;html=1;shape=endState;fillColor=strokeColor;fontSize=15;" vertex="1" parent="rm3pgVPJzHhv16Yu149n-6">
           <mxGeometry x="174.5" y="720" width="30" height="30" as="geometry" />
@@ -1250,7 +1250,7 @@
           <mxGeometry x="109.5" y="520" width="160" height="40" as="geometry" />
         </mxCell>
         <mxCell id="rm3pgVPJzHhv16Yu149n-37" value="" style="rhombus;strokeWidth=2;fontSize=15;" vertex="1" parent="rm3pgVPJzHhv16Yu149n-6">
-          <mxGeometry x="339" y="515" width="90" height="50" as="geometry" />
+          <mxGeometry x="334" y="515" width="90" height="50" as="geometry" />
         </mxCell>
         <mxCell id="rm3pgVPJzHhv16Yu149n-38" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;fontSize=15;" edge="1" parent="rm3pgVPJzHhv16Yu149n-6" source="rm3pgVPJzHhv16Yu149n-34" target="rm3pgVPJzHhv16Yu149n-37">
           <mxGeometry width="160" relative="1" as="geometry">

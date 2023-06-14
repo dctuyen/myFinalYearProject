@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-14T02:30:46.832Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="RHnFsVz1xzGGbAhYgChK" version="21.3.8" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2023-06-14T02:31:54.721Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="OnOF7aalij4BYPtN3ZVc" version="21.3.8" type="github" pages="5">
   <diagram id="tjxPVpLADmy-XOFSmjK_" name="Usecase tổng quát">
     <mxGraphModel dx="1434" dy="922" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -979,7 +979,7 @@
         </mxCell>
         <mxCell id="cJn5IS5TfyiCxL78C1EW-43" value="Đúng" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="cJn5IS5TfyiCxL78C1EW-42">
           <mxGeometry x="-0.3722" y="2" relative="1" as="geometry">
-            <mxPoint as="offset" />
+            <mxPoint y="7" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="cJn5IS5TfyiCxL78C1EW-46" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="cJn5IS5TfyiCxL78C1EW-17" source="cJn5IS5TfyiCxL78C1EW-41" target="cJn5IS5TfyiCxL78C1EW-38">

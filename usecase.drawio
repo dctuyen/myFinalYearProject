@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-14T03:08:42.523Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="BrtUlCzV8Sb8v4bvzvUc" version="21.3.8" type="github" pages="6">
+<mxfile host="app.diagrams.net" modified="2023-06-14T03:09:52.670Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="j5JTF4LP2DmWrhv__0Xb" version="21.3.8" type="github" pages="6">
   <diagram id="tjxPVpLADmy-XOFSmjK_" name="Usecase tổng quát">
     <mxGraphModel dx="989" dy="636" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -967,7 +967,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="S0ToV92lrOgrVcp4zleH-14" value="Check định dạng email" style="html=1;align=center;verticalAlign=middle;rounded=1;absoluteArcSize=1;arcSize=10;dashed=0;whiteSpace=wrap;strokeWidth=2;labelBackgroundColor=none;" vertex="1" parent="S0ToV92lrOgrVcp4zleH-6">
+        <mxCell id="S0ToV92lrOgrVcp4zleH-14" value="Chuyển về Trang chủ" style="html=1;align=center;verticalAlign=middle;rounded=1;absoluteArcSize=1;arcSize=10;dashed=0;whiteSpace=wrap;strokeWidth=2;labelBackgroundColor=none;" vertex="1" parent="S0ToV92lrOgrVcp4zleH-6">
           <mxGeometry x="80" y="540" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="S0ToV92lrOgrVcp4zleH-15" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="S0ToV92lrOgrVcp4zleH-6" source="S0ToV92lrOgrVcp4zleH-11" target="S0ToV92lrOgrVcp4zleH-14">
@@ -1111,7 +1111,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="wUqaXfefA1qYLqbZ8q89-41" value="Check định dạng email" style="html=1;align=center;verticalAlign=middle;rounded=1;absoluteArcSize=1;arcSize=10;dashed=0;whiteSpace=wrap;strokeWidth=2;labelBackgroundColor=none;" vertex="1" parent="wUqaXfefA1qYLqbZ8q89-33">
+        <mxCell id="wUqaXfefA1qYLqbZ8q89-41" value="Chuyển về trang chủ" style="html=1;align=center;verticalAlign=middle;rounded=1;absoluteArcSize=1;arcSize=10;dashed=0;whiteSpace=wrap;strokeWidth=2;labelBackgroundColor=none;" vertex="1" parent="wUqaXfefA1qYLqbZ8q89-33">
           <mxGeometry x="80" y="540" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="wUqaXfefA1qYLqbZ8q89-42" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="wUqaXfefA1qYLqbZ8q89-33" source="wUqaXfefA1qYLqbZ8q89-38" target="wUqaXfefA1qYLqbZ8q89-41">

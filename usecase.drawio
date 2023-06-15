@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-15T08:43:41.366Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="U2ji0Z_1ZrHNXTH-YKAJ" version="21.4.0" type="github" pages="11">
+<mxfile host="app.diagrams.net" modified="2023-06-15T08:44:15.598Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="kcrwwEooEmNUGUzdm7sC" version="21.4.0" type="github" pages="11">
   <diagram id="tjxPVpLADmy-XOFSmjK_" name="Usecase tổng quát">
     <mxGraphModel dx="1434" dy="884" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -1325,7 +1325,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="-q7fZyo0G2F13uuI4pCg" name="Activity thêm tài khoản">
-    <mxGraphModel dx="2261" dy="2053" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1687" dy="2209" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1344,7 +1344,7 @@
             <mxPoint x="381" y="193" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="2Mz2RFi0pXsPpCBBKP_h-5" value="Nhấn nút thêm tài khoản" style="html=1;align=center;verticalAlign=middle;rounded=1;absoluteArcSize=1;arcSize=10;dashed=0;whiteSpace=wrap;strokeWidth=2;labelBackgroundColor=none;fontSize=15;" parent="2Mz2RFi0pXsPpCBBKP_h-1" vertex="1">
+        <mxCell id="2Mz2RFi0pXsPpCBBKP_h-5" value="Nhấn nút Lưu" style="html=1;align=center;verticalAlign=middle;rounded=1;absoluteArcSize=1;arcSize=10;dashed=0;whiteSpace=wrap;strokeWidth=2;labelBackgroundColor=none;fontSize=15;" parent="2Mz2RFi0pXsPpCBBKP_h-1" vertex="1">
           <mxGeometry x="110" y="400" width="180" height="40" as="geometry" />
         </mxCell>
         <mxCell id="2Mz2RFi0pXsPpCBBKP_h-6" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;fontSize=15;" parent="2Mz2RFi0pXsPpCBBKP_h-1" source="2Mz2RFi0pXsPpCBBKP_h-3" target="2Mz2RFi0pXsPpCBBKP_h-5" edge="1">
@@ -1597,7 +1597,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="c-M2wFsUfYidzstUDVyS" name="activity xóa tài khoản">
-    <mxGraphModel dx="2261" dy="2053" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1687" dy="2209" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />

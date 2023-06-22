@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-06-22T16:58:52.807Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="7EXN-lkI5LwaeA3WqVln" version="21.5.0" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2023-06-22T17:01:10.529Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="wBUj-Ji4TxS3HZWAx6Vc" version="21.5.0" type="github" pages="5">
   <diagram name="Trang-1" id="kqEvBP3gmFzNLYqOB89x">
     <mxGraphModel dx="1050" dy="570" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -670,10 +670,10 @@
         <mxCell id="TovmYgYQs8eJDeRW0Dlz-1" value="Actor" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
           <mxGeometry x="80" y="80" width="120" height="760" as="geometry" />
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-2" value="Sửa khóa học" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=160;height=40;" parent="1" vertex="1">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-2" value="Sửa tài khoản" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=160;height=40;" parent="1" vertex="1">
           <mxGeometry x="40" width="800" height="880" as="geometry" />
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-3" value="GUI sửa khóa học" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-3" value="GUI sửa tài khoản" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
           <mxGeometry x="280" y="80" width="120" height="760" as="geometry" />
         </mxCell>
         <mxCell id="TovmYgYQs8eJDeRW0Dlz-4" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="TovmYgYQs8eJDeRW0Dlz-3" vertex="1">
@@ -716,7 +716,7 @@
         <mxCell id="TovmYgYQs8eJDeRW0Dlz-14" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="TovmYgYQs8eJDeRW0Dlz-10" vertex="1">
           <mxGeometry x="55" y="160" width="10" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-15" value="Gửi yêu cầu sửa khóa học" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="TovmYgYQs8eJDeRW0Dlz-1" target="TovmYgYQs8eJDeRW0Dlz-4" edge="1">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-15" value="Gửi yêu cầu sửa&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="TovmYgYQs8eJDeRW0Dlz-1" target="TovmYgYQs8eJDeRW0Dlz-4" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="260" y="370" as="sourcePoint" />
             <Array as="points">
@@ -726,9 +726,9 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-16" value="Yêu cầu nhập thông tin khóa học" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="TovmYgYQs8eJDeRW0Dlz-4" target="TovmYgYQs8eJDeRW0Dlz-17" edge="1">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-16" value="Yêu cầu nhập thông tin&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="TovmYgYQs8eJDeRW0Dlz-4" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="260" y="445" as="targetPoint" />
+            <mxPoint x="145" y="480" as="targetPoint" />
             <Array as="points">
               <mxPoint x="230" y="480" />
               <mxPoint x="200" y="440" />
@@ -737,9 +737,6 @@
             </Array>
             <mxPoint as="offset" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-17" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
-          <mxGeometry x="135" y="440" width="10" height="40" as="geometry" />
         </mxCell>
         <mxCell id="TovmYgYQs8eJDeRW0Dlz-18" value="Nhập đầy đủ thông tin" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="1eFTPyoxG7i4YLkg1yl9-1" target="TovmYgYQs8eJDeRW0Dlz-5" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -787,7 +784,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-21" value="Gửi thông tin khóa học" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="TovmYgYQs8eJDeRW0Dlz-5" target="TovmYgYQs8eJDeRW0Dlz-8" edge="1">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-21" value="Gửi thông tin&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="TovmYgYQs8eJDeRW0Dlz-5" target="TovmYgYQs8eJDeRW0Dlz-8" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="342.5" y="560" as="sourcePoint" />
             <Array as="points">
@@ -811,7 +808,7 @@
             <mxPoint x="739.5000000000002" y="640" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-24" value="Chọn Quản lý khóa học" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="TovmYgYQs8eJDeRW0Dlz-1" edge="1" target="TovmYgYQs8eJDeRW0Dlz-6">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-24" value="Chọn Quản lý&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" source="TovmYgYQs8eJDeRW0Dlz-1" edge="1" target="TovmYgYQs8eJDeRW0Dlz-6">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="145" y="160" as="sourcePoint" />
             <Array as="points">
@@ -820,7 +817,7 @@
             <mxPoint x="340" y="160" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-25" value="Yêu cầu hiển thị danh sách khóa học" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1" target="TovmYgYQs8eJDeRW0Dlz-9" source="TovmYgYQs8eJDeRW0Dlz-6">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-25" value="Yêu cầu hiển thị danh sách&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1" target="TovmYgYQs8eJDeRW0Dlz-9" source="TovmYgYQs8eJDeRW0Dlz-6">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="340" y="200" as="sourcePoint" />
             <Array as="points">
@@ -829,7 +826,7 @@
             <mxPoint x="540" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-26" value="Yêu cầu hiển thị danh sách khóa học" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1" target="TovmYgYQs8eJDeRW0Dlz-14" source="TovmYgYQs8eJDeRW0Dlz-9">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-26" value="Yêu cầu hiển thị danh sách&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="1" edge="1" target="TovmYgYQs8eJDeRW0Dlz-14" source="TovmYgYQs8eJDeRW0Dlz-9">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="540" y="240" as="sourcePoint" />
             <Array as="points">
@@ -839,7 +836,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TovmYgYQs8eJDeRW0Dlz-27" value="Trả ra danh sách khóa học" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;" parent="1" target="TovmYgYQs8eJDeRW0Dlz-9" edge="1">
+        <mxCell id="TovmYgYQs8eJDeRW0Dlz-27" value="Trả ra danh sách&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;" parent="1" target="TovmYgYQs8eJDeRW0Dlz-9" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="740" y="280" as="sourcePoint" />
             <Array as="points">
@@ -873,7 +870,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Y2hyN4suMCVXD95hyztc-6" value="Trả ra danh sách khóa học" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;" edge="1" parent="1" target="TovmYgYQs8eJDeRW0Dlz-6">
+        <mxCell id="Y2hyN4suMCVXD95hyztc-6" value="Trả ra danh sách&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;" edge="1" parent="1" target="TovmYgYQs8eJDeRW0Dlz-6">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="537.5" y="320" as="sourcePoint" />
             <Array as="points">
@@ -889,7 +886,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Y2hyN4suMCVXD95hyztc-7" value="Hiển thị danh sách khóa học" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;" edge="1" parent="1" target="Y2hyN4suMCVXD95hyztc-8">
+        <mxCell id="Y2hyN4suMCVXD95hyztc-7" value="Hiển thị danh sách&amp;nbsp;người dùng" style="html=1;verticalAlign=bottom;endArrow=block;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;" edge="1" parent="1" target="Y2hyN4suMCVXD95hyztc-8">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="340" y="360" as="sourcePoint" />
             <Array as="points">
@@ -909,7 +906,7 @@
           <mxGeometry x="135" y="160" width="10" height="240" as="geometry" />
         </mxCell>
         <mxCell id="1eFTPyoxG7i4YLkg1yl9-1" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
-          <mxGeometry x="135" y="520" width="10" height="280" as="geometry" />
+          <mxGeometry x="135" y="440" width="10" height="360" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
-class Course extends Authenticatable
+class Course extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -27,23 +25,10 @@ class Course extends Authenticatable
         'level',
         'price',
         'like_count',
+        'document',
         'creator',
         'updater',
         'created_at',
         'updated_at',
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-    ];
-
-    public function getToken(): string
-    {
-        return hash_hmac('sha256', Str::random(40), config('app.key'));
-    }
 }

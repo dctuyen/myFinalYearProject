@@ -27,9 +27,9 @@ class BreadcrumbServiceProvider extends ServiceProvider
         Breadcrumbs::for('admin.home', function ($trail) {
             $trail->push('Trang chủ', route('admin.home'));
         });
-        Breadcrumbs::for('admin.studentmanagement', function ($trail) {
+        Breadcrumbs::for('studentmanagement', function ($trail) {
             $trail->parent('admin.home');
-            $trail->push('Học Viên', route('admin.studentmanagement'));
+            $trail->push('Học Viên', route('studentmanagement'));
         });
         Breadcrumbs::for('category', function ($trail, $category) {
             $trail->parent('home');

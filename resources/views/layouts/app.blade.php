@@ -90,7 +90,7 @@
             <ul class="menu-inner py-1">
                 <!-- Dashboard -->
                 <li class="menu-item {{ $activeSidebar === 'home' ? 'active' : '' }}">
-                    <a href="{{ route('admin.home') }}" class="menu-link">
+                    <a href="{{ route('studentmanagement') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <span>Trang chủ</span>
                     </a>
@@ -101,6 +101,7 @@
                         <span>Tài khoản của tôi</span>
                     </a>
                 </li>
+                @if($uinfo->role_id == 1)
                 <li class="menu-header small text-uppercase">
                     <span class="menu-header-text">Quản lý</span>
                 </li>
@@ -112,15 +113,11 @@
 
                     <ul class="menu-sub">
                         <li class="menu-item @if($activeSidebar === 'studentmanagement') active @endif">
-                            <a href="{{ route('admin.studentmanagement') }}" class="menu-link">
+                            <a href="{{ route('studentmanagement') }}" class="menu-link">
                                 Quản lý học viên</a>
                         </li>
                         <li class="menu-item @if($activeSidebar === '') active @endif">
-                            <a href="{{ route('admin.studentmanagement') }}" class="menu-link">
-                                Học viên nợ học phí</a>
-                        </li>
-                        <li class="menu-item @if($activeSidebar === '') active @endif">
-                            <a href="{{ route('admin.studentmanagement') }}" class="menu-link">
+                            <a href="{{ route('studentmanagement') }}" class="menu-link">
                                 Chờ khai giảng</a>
                         </li>
                     </ul>
@@ -132,11 +129,34 @@
 
                     <ul class="menu-sub">
                         <li class="menu-item @if($activeSidebar === 'teachermanagement') active @endif">
-                            <a href="{{ route('admin.teachermanagement') }}" class="menu-link">
+                            <a href="{{ route('teachermanagement') }}" class="menu-link">
                                 Quản lý giảng viên</a>
                         </li>
                     </ul>
                 </li>
+                <li class="menu-item @if($activeSidebar === 'carermanagement') active open @endif">
+                    <a href="{{ route('carermanagement') }}" class="menu-link">
+                        <i class="fas fa-handshake"></i>&emsp;<span>Người chăm sóc</span>
+                    </a>
+                </li>
+
+                <li class="menu-item @if($activeSidebar === 'classmanagement' || $activeSidebar === 'classwaiting') active open @endif">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="far fa-pencil-ruler"></i>&emsp;<span>Lớp học</span>
+                    </a>
+
+                    <ul class="menu-sub">
+                        <li class="menu-item @if($activeSidebar === 'classmanagement') active @endif">
+                            <a href="{{ route('classmanagement') }}" class="menu-link">
+                                Quản lý lớp học</a>
+                        </li>
+                        <li class="menu-item @if($activeSidebar === 'classwaiting') active @endif">
+                            <a href="{{ route('classmanagement.waiting') }}" class="menu-link">
+                                Chờ khai giảng</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="menu-item @if($activeSidebar === 'coursemanagement') active open @endif">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <i class="far fa-list-ul"></i>&emsp;<span>Danh mục</span>
@@ -147,16 +167,28 @@
                             <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
                                 Danh sách khóa học</a>
                         </li>
+                        <li class="menu-item @if($activeSidebar === 's') active @endif">
+                            <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
+                                Danh sách ca học</a>
+                        </li>
                         <li class="menu-item @if($activeSidebar === '') active @endif">
                             <a href="#" class="menu-link">
                                 Tài liệu</a>
                         </li>
-                        <li class="menu-item @if($activeSidebar === '') active @endif">
-                            <a href="#" class="menu-link">
-                                Quản lý phòng học</a>
-                        </li>
                     </ul>
                 </li>
+                @endif
+
+                @if($uinfo->role_id == 2)
+                <li class="menu-header small text-uppercase">
+                    <span class="menu-header-text">Danh sách</span>
+                </li>
+                <li class="menu-item @if($activeSidebar === 'listcourses') active open @endif">
+                    <a href="{{ route('carermanagement') }}" class="menu-link">
+                        <i class="far fa-books"></i>&emsp;<span>Danh sách khóa học</span>
+                    </a>
+                </li>
+                @endif
             </ul>
         </aside>
         <!-- / Menu -->
@@ -363,7 +395,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script type="text/javascript">
     $('#btnSearch').on('click', function () {
         let currentUrl = window.location.href;

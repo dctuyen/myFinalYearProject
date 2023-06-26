@@ -69,7 +69,7 @@ class LoginController extends Controller
             }
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => Constants::ACTIVATED_STATUS], $remember)) {
                 if (auth()->user()->role_id === Constants::ADMIN_ROLE_ID) {
-                    return redirect()->route('admin.home')->with('success', 'Đăng nhập thành công');
+                    return redirect()->route('studentmanagement')->with('success', 'Đăng nhập thành công');
                 }
                 return redirect()->route('home')->with('success', 'Đăng nhập thành công');
             }

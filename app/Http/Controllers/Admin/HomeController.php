@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Library\Constants;
 use App\Library\Helper;
+use App\Models\Classes;
 use App\Models\Course;
+use App\Models\Enrollment;
+use App\Models\Shift;
 use App\Models\User;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -42,145 +40,11 @@ class HomeController extends Controller
     /**
      * @throws Exception
      */
-    public function studentManagement(Request $request): Factory|View|Application
-    {
-//        $allStudent = User::all();
-//        foreach ($allStudent as $student) {
-//            $values = collect([0, 1, 2]);
-//            $randomStatus = $values->random() < 0.1 ? $values->random() : 1;
-//            $student->status = $randomStatus;
-//            $student->save();
-//        }
-        $searchData = $request->search;
-        $allStudent = User::query();
-        if (!Helper::IsNullOrEmptyString($searchData)) {
-            $allStudent->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%$searchData%'")
-                ->orWhereRaw("email LIKE '%$searchData%'")
-                ->orWhereRaw("phone LIKE '%$searchData%'");
-        }
-
-        $allStudent->where('role_id', '=', Constants::STUDENT_ROLE_ID);
-
-        $allStudent = $allStudent->orderBy('id', 'DESC')->paginate(20);
-        foreach ($allStudent as $student) {
-            $creator = User::find($student->creator);
-            if ($creator) {
-                $student->creator_email = $creator->email;
-            }
-        }
-        $data = [
-            'uinfo' => auth()->user(),
-            'students' => $allStudent,
-            'activeSidebar' => 'studentmanagement'
-        ];
-        return view('admin.studentmanagement')->with($data);
-    }
-
-
-    /**
-     * @throws Exception
-     */
-    public function teacherManagement(Request $request): Factory|View|Application
-    {
-        $searchData = $request->search;
-        $allTeachers = User::query();
-        if (!Helper::IsNullOrEmptyString($searchData)) {
-            $allTeachers->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%$searchData%'")
-                ->orWhereRaw("email LIKE '%$searchData%'")
-                ->orWhereRaw("phone LIKE '%$searchData%'");
-        }
-
-        $allTeachers->where('role_id', '=', Constants::TEACHER_ROLE_ID);
-
-        $allTeachers = $allTeachers->orderBy('id', 'DESC')->paginate(20);
-        foreach ($allTeachers as $teacher) {
-            $creator = User::find($teacher->creator);
-            if ($creator) {
-                $teacher->creator_email = $creator->email;
-            }
-        }
-        $data = [
-            'uinfo' => auth()->user(),
-            'teachers' => $allTeachers,
-            'activeSidebar' => 'teachermanagement'
-        ];
-        return view('admin.teachermanagement')->with($data);
-    }
-
-
-    public function courseManagement(Request $request)
-    {
-        $searchData = $request->search;
-        $allCourses = Course::query();
-        if (!Helper::IsNullOrEmptyString($searchData)) {
-            $allCourses->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%$searchData%'")
-                ->orWhereRaw("email LIKE '%$searchData%'")
-                ->orWhereRaw("phone LIKE '%$searchData%'");
-        }
-
-        $allCourses = $allCourses->orderBy('id', 'DESC')->paginate(20);
-        $data = [
-            'uinfo' => auth()->user(),
-            'courses' => $allCourses,
-            'activeSidebar' => 'coursemanagement'
-        ];
-        return view('admin.coursemanagement')->with($data);
-    }
-
-
-    /**
-     * @throws Exception
-     */
-    public function course(Request $request): View|Factory|RedirectResponse|Application
-    {
-        $data = [
-            'uinfo' => auth()->user(),
-            'activeSidebar' => 'coursemanagement'
-        ];
-        $data['action'] = 'new';
-        $courseId = $request->id;
-        if (!Helper::IsNullOrEmptyString($courseId)) {
-            $courseEdit = Course::where('id', '=', $courseId)->first();
-            if (!$courseEdit)
-                return redirect()->route('admin.coursemanagement')->with('error', 'Khóa học không tồn tại!');
-            $data['course'] = $courseEdit;
-            $data['action'] = 'edit';
-        }
-        return view('admin.course')->with($data);
-    }
-
-    public function saveCourse(Request $request)
-    {
-        $courseId = $request->courseid;
-        if (!Helper::IsNullOrEmptyString($courseId)) {
-            $course = Course::where('id', '=', $courseId)->first();
-            if (!$course) {
-                return redirect()->route('admin.coursemanagement')->with('error', 'Khóa học không tồn tại!');
-            }
-            $course->updated_at = Helper::getCurrentTime();
-        } else {
-            $course = new Course();
-            $course->created_at = Helper::getCurrentTime();
-        }
-        $course->name = $request->name;
-        $course->duration = $request->duration;
-        $course->lesson_count = $request->lesson_count;
-        $course->course_type = $request->course_type;
-        $course->level = $request->level;
-        $course->price = $request->price;
-        $course->status = $request->status;
-        if ($course->save()) {
-            return redirect()->route('admin.coursemanagement')->with('success', 'Lưu thông tin khóa học thành công!');
-        }
-        return redirect()->route('admin.coursemanagement')->with('error', 'Khóa học không tồn tại!');
-
-    }
-
-    /**
-     * @throws Exception
-     */
     public function createDataUser(): void
     {
+//        $this->createRandomClassData();
+        $this->createEnrollments();
+        return;
         $json = file_get_contents(public_path() . '\datatest.json');
         $objects = json_decode($json, false, 512, JSON_THROW_ON_ERROR);
 
@@ -201,14 +65,14 @@ class HomeController extends Controller
             ];
         $count = 0;
         foreach ($objects as $ob) {
-            if ($count >= 100) {
+            if ($count >= 50) {
                 break;
             }
             $rand = random_int(1, 2);
             $data = get_object_vars($ob);
-            $email = strtolower(str_replace(' ', '', Helper::khongdau($data['full_name']))) . '@gmail.com';
-            $checkExits = User::where('email', '=', $email);
-            if ($checkExits) {
+            $email = 'carer' . strtolower(str_replace(' ', '', Helper::khongdau($data['full_name']))) . '@gmail.com';
+            $checkExits = User::where('email', '=', $email)->count();
+            if ($checkExits > 0) {
                 continue;
             }
 
@@ -226,13 +90,97 @@ class HomeController extends Controller
                 'address' => $add,
                 'email' => $email,
                 'phone' => $phone,
-                'role_id' => Constants::TEACHER_ROLE_ID,
+                'role_id' => 2,
                 'status' => Constants::ACTIVATED_STATUS,
                 'password' => Hash::make('12345678'),
                 'remember_token' => Helper::getRandomText(40),
-                'created_at' => Helper::getCurrentTime()
+                'created_at' => Helper::getCurrentTime(),
+                'creator' => 1,
+                'certificate' => '{}'
             ]);
             $count++;
+        }
+    }
+
+    public function createRandomClassData()
+    {
+        for ($i = 0; $i < 80; $i++) {
+            $teacher = User::where('role_id', '=', 3)->inRandomOrder()->first()->id;
+            $carer_id = User::where('role_id', '=', 4)->inRandomOrder()->first()->id;
+            while (true) {
+                $course = Course::inRandomOrder()->first();
+                $shift_id = Shift::where('id', '!=', '')->inRandomOrder()->first();
+                $check = Classes::where('shift_id', '=', $shift_id->id)->where('course_id', '=', $course->id)->count();
+                if ($check < 1) break;
+            }
+
+
+            $startDate = strtotime('2023-04-01');
+            $endDate = strtotime('2023-06-31');
+            $randomTimestamp = mt_rand($startDate, $endDate);
+
+            $randomDate = date('Y-m-d', $randomTimestamp);
+
+            $modifiedTimestamp = strtotime("+$course->duration months", $randomTimestamp);
+            $modifiedDate = date('Y-m-d', $modifiedTimestamp);
+
+            $randomString = strtoupper(substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(5 / strlen($x)))), 1, 5)) .
+                strtoupper(substr(str_shuffle(str_repeat($x = '0123456789', ceil(5 / strlen($x)))), 1, 5));
+            $textname = strtoupper(explode(' ', $course->name)[0]) . $randomString;
+
+
+            Classes::create([
+                'name' => $textname,
+                'teacher_id' => $teacher,
+                'carer_id' => $carer_id,
+                'course_id' => $course->id,
+                'shift_id' => $shift_id->id,
+                'start_date' => $randomDate,
+                'end_date' => $modifiedDate,
+                'status' => Constants::ACTIVATED_STATUS,
+                'number_of_students' => 30,
+                'created_at' => $randomDate,
+            ]);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function createEnrollments()
+    {
+        for ($i = 0; $i < 80; $i++) {
+            while (true) {
+                $student = User::where('role_id', '=', 2)->inRandomOrder()->first()->id;
+                $class = Classes::where("start_date", '<=', date('Y-m-d'))->inRandomOrder()->first();
+                $classesInCourse = Classes::where('course_id', $class->course_id)->get();
+                $exist = false;
+                foreach ($classesInCourse as $cl) {
+                    $check = Enrollment::where('student_id', '=', $student)
+                        ->where('class_id', '=', $cl->id)->count();
+                    if ($check > 0) {
+                        $exist = true;
+                    }
+                }
+
+                $check = Enrollment::where('student_id', '=', $student)
+                    ->where('class_id', '=', $class->id)->count();
+                if ($check < 1 && !$exist) {
+                    break;
+                }
+            }
+
+            $startDate = strtotime('2023-04-01');
+            $endDate = strtotime('2023-06-25');
+            $registrationDate = mt_rand($startDate, $endDate);
+            Enrollment::create([
+                'class_id' => $class->id,
+                'student_id' => $student,
+                'registration_date' => date('Y-m-d', $registrationDate),
+                'grade' => random_int(5, 10),
+                'status' => Constants::ACTIVATED_STATUS
+            ]);
+
         }
     }
 }

@@ -318,7 +318,6 @@
             }
             let jsonData = JSON.stringify(data);
             $('#certificateJson').val(jsonData);
-            debugger;
         });
     </script>
 @endsection

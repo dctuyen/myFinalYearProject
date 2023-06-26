@@ -24,6 +24,7 @@ return new class extends Migration
             ['name' => 'admin', 'description' => 'Quản Trị Hệ Thống', 'created_at' => date('Y-m-d H:i:s')],
             ['name' => 'student', 'description' => 'Học Viên', 'created_at' => date('Y-m-d H:i:s')],
             ['name' => 'teacher', 'description' => 'Giáo Viên', 'created_at' => date('Y-m-d H:i:s')],
+            ['name' => 'carer', 'description' => 'Chăm sóc', 'created_at' => date('Y-m-d H:i:s')],
         ]);
     }
 

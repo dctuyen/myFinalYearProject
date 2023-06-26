@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Library\Constants;
 use App\Library\Helper;
+use App\Models\Classes;
+use App\Models\Course;
+use App\Models\Enrollment;
+use App\Models\Fee;
+use App\Models\Shift;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -71,6 +76,9 @@ class HomeController extends Controller
         } else if ($routeName === 'newteacher') {
             $action = 'new';
             $roleId = Constants::TEACHER_ROLE_ID;
+        } else if ($routeName === 'newcarer') {
+            $action = 'new';
+            $roleId = Constants::CARER_ROLE_ID;
         }
 
         $data = [
@@ -89,7 +97,7 @@ class HomeController extends Controller
             }
         }
 
-        if ($routeName === 'myaccount') {
+        if ($routeName === 'account/my') {
             $data['activeSidebar'] = 'myaccount';
         } elseif ($routeName === 'newstudent' || $routeName === 'account/edit/{id}') {
             $data['activeSidebar'] = 'studentmanagement';
@@ -166,16 +174,16 @@ class HomeController extends Controller
         }
         if ($account->save()) {
             if ($request->roleId == Constants::STUDENT_ROLE_ID) {
-                return redirect()->route('admin.studentmanagement')->with('success', 'Tạo mới tài khoản thành công!');
+                return redirect()->route('studentmanagement')->with('success', 'Tạo mới tài khoản thành công!');
             }
             //      trang chủ quản lý giảng viên
-            return redirect()->route('admin.teachermanagement')->with('success', 'Tạo mới tài khoản thành công!');
+            return redirect()->route('teachermanagement')->with('success', 'Tạo mới tài khoản thành công!');
         }
         if ($request->roleId == Constants::STUDENT_ROLE_ID) {
-            return redirect()->route('admin.studentmanagement')->with('error', 'Tạo mới tài khoản thất bại!');
+            return redirect()->route('studentmanagement')->with('error', 'Tạo mới tài khoản thất bại!');
         }
         //      trang chủ quản lý giảng viên
-        return redirect()->route('admin.teachermanagement')->with('error', 'Tạo mới tài khoản thất bại!');
+        return redirect()->route('teachermanagement')->with('error', 'Tạo mới tài khoản thất bại!');
     }
 
     public function deleteAccount($userId): JsonResponse
@@ -189,5 +197,170 @@ class HomeController extends Controller
             return response()->json(['status' => 1, 'message' => 'Xóa tài khoản thành công!']);
         }
         return response()->json(['status' => 0, 'message' => 'Xóa tài khoản không thành công!']);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function class(Request $request)
+    {
+        $data = [
+            'uinfo' => auth()->user(),
+            'activeSidebar' => 'classmanagement'
+        ];
+        $data['action'] = 'new';
+        $classId = $request->id;
+        if (!Helper::IsNullOrEmptyString($classId)) {
+            $classEdit = Classes::where('id', '=', $classId)->first();
+            if (!$classEdit) {
+                return redirect()->route('admin.coursemanagement')->with('error', 'Khóa học không tồn tại!');
+            }
+            $data['class'] = $classEdit;
+            $data['action'] = 'edit';
+        }
+
+        $listCourses = Course::all();
+        $listCarers = User::where('role_id', '=', Constants::CARER_ROLE_ID)->get();
+        $listTeachers = User::where('role_id', '=', Constants::TEACHER_ROLE_ID)->get();
+        $data['listCourses'] = $listCourses;
+        $data['listCarers'] = $listCarers;
+        $data['listTeachers'] = $listTeachers;
+        $data['listShift'] = Shift::all();
+
+        return view('class')->with($data);
+    }
+
+    public function saveclass(Request $request)
+    {
+        $classId = $request->classid;
+        if (!Helper::IsNullOrEmptyString($classId)) {
+            $class = Classes::where('id', '=', $classId)->first();
+            if (!$class) {
+                return redirect()->route('admin.coursemanagement')->with('error', 'Lớp học không tồn tại!');
+            }
+            $class->updated_at = Helper::getCurrentTime();
+        } else {
+            $class = new Classes();
+            $class->created_at = Helper::getCurrentTime();
+        }
+
+        $class->name = $request->name;
+        $class->carer_id = $request->carer_id;
+        $class->teacher_id = $request->teacher_id;
+        $class->course_id = $request->course_id;
+        $class->start_date = $request->start_date;
+        $class->end_date = $request->end_date;
+        $class->number_of_students = $request->number_of_students;
+        $class->shift_id = $request->shift_id;
+        $class->status = Constants::ACTIVATED_STATUS;
+        if ($class->save()) {
+            return redirect()->route('admin.coursemanagement')->with('success', 'Lưu thông tin lớp học thành công!');
+        }
+        return redirect()->route('admin.coursemanagement')->with('error', 'Lớp học không tồn tại!');
+    }
+
+    public function checkExistsClassName(Request $request)
+    {
+        $className = $request->json()->all()['name'];
+        $checkExists = Classes::whereRaw("name LIKE '%$className%'")->count();
+        if ($checkExists > 0)
+            $result = true;
+        else
+            $result = false;
+        return response()->json(['result' => $result]);
+
+    }
+
+    public function classmanagement(Request $request)
+    {
+        $uinfo = auth()->user();
+        $searchData = $request->search;
+        $allClasses = Classes::query();
+        $routeName = Route::current()->uri;
+        $sideBar = 'classmanagement';
+        if (!Helper::IsNullOrEmptyString($searchData)) {
+            $allClasses->whereRaw("name LIKE '%$searchData%'");
+        }
+
+        $now = date('Y-m-d');
+        if ($routeName === 'classes/wait') {
+            $allClasses->where("start_date", '>', $now);
+            $sideBar = 'classwaiting';
+        } else {
+            $allClasses->where("start_date", '<=', $now);
+        }
+
+        if ($uinfo->role_id === Constants::TEACHER_ROLE_ID) {
+            $allClasses->where('teacher_id', '=', $uinfo->id);
+        } else if ($uinfo->role_id === Constants::CARER_ROLE_ID) {
+            $allClasses->where('carer_id', '=', $uinfo->id);
+        }
+        $allClasses = $allClasses->orderBy('id', 'DESC')->paginate(20);
+
+        foreach ($allClasses as $key => $classroom) {
+            $teacher = User::where('id', '=', $classroom->teacher_id)->first();
+            $carer = User::where('id', '=', $classroom->carer_id)->first();
+            $course = Course::where('id', '=', $classroom->course_id)->first();
+
+            $allClasses[$key]['teacher'] = $teacher->first_name . ' ' . $teacher->last_name;
+            $allClasses[$key]['carer'] = $carer->first_name . ' ' . $carer->last_name;
+            $allClasses[$key]['teacher_email'] = $teacher->email;
+            $allClasses[$key]['carer_email'] = $carer->email;
+            $allClasses[$key]['course_name'] = $course->name;
+
+            $shift = Shift::where('id', '=', $classroom->shift_id)->first();
+            $allClasses[$key]['shift'] = 'Phòng ' . $shift->classroom . ' ' . $shift->start_at . ' đến ' . $shift->end_at;
+            $allClasses[$key]['shift_date'] = $shift->dates;
+
+            $countStudents = Enrollment::where('class_id', '=', $classroom->id)->count();
+            $allClasses[$key]['number_registered'] = $countStudents;
+
+        }
+        $data = [
+            'uinfo' => auth()->user(),
+            'classes' => $allClasses,
+            'activeSidebar' => $sideBar
+        ];
+        return view('classmanagement')->with($data);
+    }
+
+    public function userManagement(Request $request): Factory|View|Application
+    {
+        $searchData = $request->search;
+         $routeName = Route::current()->uri;
+        if ($routeName === 'student') {
+            $role_id = Constants::STUDENT_ROLE_ID;
+            $title = 'Học Viên';
+        } else if ($routeName === 'teacher') {
+            $role_id = Constants::TEACHER_ROLE_ID;
+            $title = 'Giảng Viên';
+        } else if ($routeName === 'carer') {
+            $role_id = Constants::CARER_ROLE_ID;
+            $title = 'Nhân Viên Chăm Sóc';
+        }
+
+        $allUsers = User::query();
+        if (!Helper::IsNullOrEmptyString($searchData)) {
+            $allUsers->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%$searchData%'")
+                ->orWhereRaw("email LIKE '%$searchData%'")
+                ->orWhereRaw("phone LIKE '%$searchData%'");
+        }
+
+        $allUsers->where('role_id', '=', $role_id);
+
+        $allUsers = $allUsers->orderBy('id', 'DESC')->paginate(20);
+        foreach ($allUsers as $user) {
+            $creator = User::find($user->creator);
+            if ($creator) {
+                $user->creator_email = $creator->email;
+            }
+        }
+        $data = [
+            'uinfo' => auth()->user(),
+            'users' => $allUsers,
+            'activeSidebar' => $routeName . 'management',
+            'title' => $title
+        ];
+        return view('usermanagement')->with($data);
     }
 }

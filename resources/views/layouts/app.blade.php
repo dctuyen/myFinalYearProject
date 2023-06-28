@@ -102,92 +102,97 @@
                     </a>
                 </li>
                 @if($uinfo->role_id == 1)
-                <li class="menu-header small text-uppercase">
-                    <span class="menu-header-text">Quản lý</span>
-                </li>
-                <!-- Layouts -->
-                <li class="menu-item @if($activeSidebar === 'studentmanagement') active open @endif">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="fas fa-graduation-cap"></i>&emsp;<span>Học Viên</span>
-                    </a>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Quản lý</span>
+                    </li>
+                    <!-- Layouts -->
+                    <li class="menu-item @if($activeSidebar === 'studentmanagement') active open @endif">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="fas fa-graduation-cap"></i>&emsp;<span>Học Viên</span>
+                        </a>
 
-                    <ul class="menu-sub">
-                        <li class="menu-item @if($activeSidebar === 'studentmanagement') active @endif">
-                            <a href="{{ route('studentmanagement') }}" class="menu-link">
-                                Quản lý học viên</a>
-                        </li>
-                        <li class="menu-item @if($activeSidebar === '') active @endif">
-                            <a href="{{ route('studentmanagement') }}" class="menu-link">
-                                Chờ khai giảng</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-item @if($activeSidebar === 'teachermanagement') active open @endif">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="fas fa-chalkboard-teacher"></i>&emsp;<span>Giảng viên</span>
-                    </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item @if($activeSidebar === 'studentmanagement') active @endif">
+                                <a href="{{ route('studentmanagement') }}" class="menu-link">
+                                    Quản lý học viên</a>
+                            </li>
+                            <li class="menu-item @if($activeSidebar === '') active @endif">
+                                <a href="{{ route('studentmanagement') }}" class="menu-link">
+                                    Chờ khai giảng</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === 'teachermanagement') active open @endif">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="fas fa-chalkboard-teacher"></i>&emsp;<span>Giảng viên</span>
+                        </a>
 
-                    <ul class="menu-sub">
-                        <li class="menu-item @if($activeSidebar === 'teachermanagement') active @endif">
-                            <a href="{{ route('teachermanagement') }}" class="menu-link">
-                                Quản lý giảng viên</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-item @if($activeSidebar === 'carermanagement') active open @endif">
-                    <a href="{{ route('carermanagement') }}" class="menu-link">
-                        <i class="fas fa-handshake"></i>&emsp;<span>Người chăm sóc</span>
-                    </a>
-                </li>
+                        <ul class="menu-sub">
+                            <li class="menu-item @if($activeSidebar === 'teachermanagement') active @endif">
+                                <a href="{{ route('teachermanagement') }}" class="menu-link">
+                                    Quản lý giảng viên</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === 'carermanagement') active open @endif">
+                        <a href="{{ route('carermanagement') }}" class="menu-link">
+                            <i class="fas fa-handshake"></i>&emsp;<span>Người chăm sóc</span>
+                        </a>
+                    </li>
 
-                <li class="menu-item @if($activeSidebar === 'classmanagement' || $activeSidebar === 'classwaiting') active open @endif">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="far fa-pencil-ruler"></i>&emsp;<span>Lớp học</span>
-                    </a>
+                    <li class="menu-item @if($activeSidebar === 'classmanagement' || $activeSidebar === 'classwaiting') active open @endif">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="far fa-pencil-ruler"></i>&emsp;<span>Lớp học</span>
+                        </a>
 
-                    <ul class="menu-sub">
-                        <li class="menu-item @if($activeSidebar === 'classmanagement') active @endif">
-                            <a href="{{ route('classmanagement') }}" class="menu-link">
-                                Quản lý lớp học</a>
-                        </li>
-                        <li class="menu-item @if($activeSidebar === 'classwaiting') active @endif">
-                            <a href="{{ route('classmanagement.waiting') }}" class="menu-link">
-                                Chờ khai giảng</a>
-                        </li>
-                    </ul>
-                </li>
+                        <ul class="menu-sub">
+                            <li class="menu-item @if($activeSidebar === 'classmanagement') active @endif">
+                                <a href="{{ route('classmanagement') }}" class="menu-link">
+                                    Quản lý lớp học</a>
+                            </li>
+                            <li class="menu-item @if($activeSidebar === 'classwaiting') active @endif">
+                                <a href="{{ route('classmanagement.waiting') }}" class="menu-link">
+                                    Chờ khai giảng</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                <li class="menu-item @if($activeSidebar === 'coursemanagement') active open @endif">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="far fa-list-ul"></i>&emsp;<span>Danh mục</span>
-                    </a>
+                    <li class="menu-item @if($activeSidebar === 'coursemanagement') active open @endif">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="far fa-list-ul"></i>&emsp;<span>Danh mục</span>
+                        </a>
 
-                    <ul class="menu-sub">
-                        <li class="menu-item @if($activeSidebar === 'coursemanagement') active @endif">
-                            <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
-                                Danh sách khóa học</a>
-                        </li>
-                        <li class="menu-item @if($activeSidebar === 's') active @endif">
-                            <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
-                                Danh sách ca học</a>
-                        </li>
-                        <li class="menu-item @if($activeSidebar === '') active @endif">
-                            <a href="#" class="menu-link">
-                                Tài liệu</a>
-                        </li>
-                    </ul>
-                </li>
+                        <ul class="menu-sub">
+                            <li class="menu-item @if($activeSidebar === 'coursemanagement') active @endif">
+                                <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
+                                    Danh sách khóa học</a>
+                            </li>
+                            <li class="menu-item @if($activeSidebar === 's') active @endif">
+                                <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
+                                    Danh sách ca học</a>
+                            </li>
+                            <li class="menu-item @if($activeSidebar === '') active @endif">
+                                <a href="#" class="menu-link">
+                                    Tài liệu</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
 
                 @if($uinfo->role_id == 2)
-                <li class="menu-header small text-uppercase">
-                    <span class="menu-header-text">Danh sách</span>
-                </li>
-                <li class="menu-item @if($activeSidebar === 'listcourses') active open @endif">
-                    <a href="{{ route('carermanagement') }}" class="menu-link">
-                        <i class="far fa-books"></i>&emsp;<span>Danh sách khóa học</span>
-                    </a>
-                </li>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Danh sách</span>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === 'student.index') active open @endif">
+                        <a href="{{ route('student.index') }}" class="menu-link">
+                            <i class="far fa-books"></i>&emsp;<span>Danh sách khóa học</span>
+                        </a>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === '') active open @endif">
+                        <a href="{{ route('student.index') }}" class="menu-link">
+                            <i class="far fa-pencil-ruler"></i>&emsp;<span>Lớp học của tôi</span>
+                        </a>
+                    </li>
                 @endif
             </ul>
         </aside>

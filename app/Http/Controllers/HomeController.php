@@ -18,6 +18,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('auth');
     }
 
     /**
@@ -275,19 +277,32 @@ class HomeController extends Controller
     {
         $uinfo = auth()->user();
         $searchData = $request->search;
-        $allClasses = Classes::query();
-        $routeName = Route::current()->uri;
-        $sideBar = 'classmanagement';
+
+        $allClasses = DB::table('Classes')
+            ->leftJoin('Users as teacher', 'Classes.teacher_id', '=', 'teacher.id')
+            ->leftJoin('Users as carer', 'Classes.carer_id', '=', 'carer.id')
+            ->leftJoin('Courses', 'Classes.course_id', '=', 'Courses.id')
+            ->leftJoin('Shifts', 'Shifts.id', '=', 'Classes.shift_id')
+            ->leftJoin('Enrollments', 'Enrollments.class_id', '=', 'Classes.id')
+            ->select(
+                'teacher.email as teacher_email', 'carer.email as carer_email', 'Classes.*',
+                'Courses.name as course_name', 'Shifts.classroom', 'Shifts.dates', 'Shifts.start_at', 'Shifts.end_at',
+                DB::raw('CONCAT(teacher.first_name, " ", teacher.last_name) as teacher'),
+                DB::raw('CONCAT(carer.first_name, " ", carer.last_name) as carer'),
+                DB::raw('COUNT(Enrollments.id) as number_registered')
+            );
         if (!Helper::IsNullOrEmptyString($searchData)) {
-            $allClasses->whereRaw("name LIKE '%$searchData%'");
+            $allClasses->where("Classes.name LIKE '%$searchData%'");
         }
 
+        $routeName = Route::current()->uri;
+        $sideBar = 'classmanagement';
         $now = date('Y-m-d');
         if ($routeName === 'classes/wait') {
-            $allClasses->where("start_date", '>', $now);
+            $allClasses->where("Classes.start_date", '>', $now);
             $sideBar = 'classwaiting';
         } else {
-            $allClasses->where("start_date", '<=', $now);
+            $allClasses->where("Classes.start_date", '<=', $now);
         }
 
         if ($uinfo->role_id === Constants::TEACHER_ROLE_ID) {
@@ -295,27 +310,10 @@ class HomeController extends Controller
         } else if ($uinfo->role_id === Constants::CARER_ROLE_ID) {
             $allClasses->where('carer_id', '=', $uinfo->id);
         }
-        $allClasses = $allClasses->orderBy('id', 'DESC')->paginate(20);
+        $allClasses = $allClasses->groupBy('Classes.id')
+            ->orderBy('Classes.id', 'DESC')->paginate(20);
 
-        foreach ($allClasses as $key => $classroom) {
-            $teacher = User::where('id', '=', $classroom->teacher_id)->first();
-            $carer = User::where('id', '=', $classroom->carer_id)->first();
-            $course = Course::where('id', '=', $classroom->course_id)->first();
 
-            $allClasses[$key]['teacher'] = $teacher->first_name . ' ' . $teacher->last_name;
-            $allClasses[$key]['carer'] = $carer->first_name . ' ' . $carer->last_name;
-            $allClasses[$key]['teacher_email'] = $teacher->email;
-            $allClasses[$key]['carer_email'] = $carer->email;
-            $allClasses[$key]['course_name'] = $course->name;
-
-            $shift = Shift::where('id', '=', $classroom->shift_id)->first();
-            $allClasses[$key]['shift'] = 'Phòng ' . $shift->classroom . ' ' . $shift->start_at . ' đến ' . $shift->end_at;
-            $allClasses[$key]['shift_date'] = $shift->dates;
-
-            $countStudents = Enrollment::where('class_id', '=', $classroom->id)->count();
-            $allClasses[$key]['number_registered'] = $countStudents;
-
-        }
         $data = [
             'uinfo' => auth()->user(),
             'classes' => $allClasses,

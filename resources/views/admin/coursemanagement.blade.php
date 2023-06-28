@@ -14,8 +14,7 @@
             <p class="col-md-1 text-nowrap fw-bold info" style="padding-left: 3rem !important;">
                 @if ($courses->total() > 0)
                     Tổng
-                    {{ count($courses->items()) }} / {{ $courses->total() }}
-                    giảng viên
+                    {{ count($courses->items()) }} / {{ $courses->total() }} khóa học
                 @endif
             </p>
         </div>

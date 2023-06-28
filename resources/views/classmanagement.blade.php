@@ -47,46 +47,43 @@
                     <tr data-key="{{ $key }}">
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            {{ $class['name'] }} <br>
-                            Thuộc khóa: <i>{{ $class['course_name'] }}</i>
+                            {{ $class->name }} <br>
+                            Thuộc khóa: <i>{{ $class->course_name }}</i>
                         </td>
-                        <td>{{ $class['teacher'] }} <br>
-                            {{ $class['teacher_email'] }}
-                        </td>
-                        <td>
-                            {{ $class['carer']  }} <br>
-                        {{$class['carer_email']  }}
-                        <td>
-                            Từ {{ $class['start_date'] }} <br>
-                            Đến {{ $class['end_date'] }}
+                        <td>{{ $class->teacher }} <br>
+                            {{ $class->teacher_email }}
                         </td>
                         <td>
-                            {{ $class['shift'] }} <br>
-                            {{ $class['shift_date'] }}
+                            Từ {{ $class->start_date }} <br>
+                            Đến {{ $class->end_date }}
                         </td>
                         <td>
-                            Sĩ số: {{ $class['number_registered'] }} học viên <br>
+                            Phòng: {{ $class->classroom }} <br>
+                            {{ $class->dates }} <br>
+                            Từ {{ $class->start_at }} đến {{ $class->end_at }}
+                        </td>
+                        <td>
+                            Sĩ số: {{ $class->number_registered }} học viên <br>
                             <span
-                                class="text-danger fw-bold"> Giới hạn: {{ $class['number_of_students'] }} học viên </span>
+                                class="text-danger fw-bold"> Giới hạn: {{ $class->number_of_students }} học viên </span>
                         </td>
                         <td>
-                            {{ $class['creator_email'] }}<br>
-                            @if ($class['status'] === 1)
+                            @if ($class->status === 1)
                                 <span class="badge bg-label-success me-1 text-capitalize">Hoạt động</span>
-                            @elseif ($class['status'] === 2)
+                            @elseif ($class->status === 2)
                                 <span class="badge bg-label-warning me-1 text-capitalize">Chờ kích hoạt</span>
-                            @elseif ($class['status'] === 0)
+                            @elseif ($class->status === 0)
                                 <span class="badge bg-label-danger me-1 text-capitalize">Không hoạt động</span>
                             @endif
-                            <br>{{ $class['created_at'] }}
+                            <br>{{ $class->created_at }}
                         </td>
                         <td>
                             <a class="btn btn-warning rounded-pill btn-icon me-2" data-togle="tooltip" title="Chỉnh sửa"
-                               href="{{ route('editclass', $class['id']) }}">
+                               href="{{ route('editclass', $class->id) }}">
                                 <i class="fal fa-edit"></i></a>
-                            @if ($class['number_registered'] == 0)
+                            @if ($class->number_registered == 0)
                                 <button class="btn btn-danger rounded-pill btn-icon" data-togle="tooltip" title="Xóa"
-                                        onclick="loadDeleteModal({{ $key }}, {{ $class['id'] }}, '{{ $class['email'] }}')"
+                                        onclick="loadDeleteModal({{ $key }}, {{ $class->id }})"
                                 ><i class="fas fa-trash-alt"></i></button>
                             @endif
                         </td>

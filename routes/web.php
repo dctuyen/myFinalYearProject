@@ -90,6 +90,11 @@ Route::delete('shift/delete/{id}', [App\Http\Controllers\HomeController::class, 
 Route::post('saveshift', [App\Http\Controllers\HomeController::class, 'saveclass'])->name('saveclass');
 Route::post('shift/checkname', [App\Http\Controllers\HomeController::class, 'checkExistsShiftName'])->name('ajax.checkname');
 
+/* Student */
+Route::get('index', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+Route::get('course/class', [App\Http\Controllers\StudentController::class, 'listClass'])->name('listclass');
+
+
 Route::any('{url}', static function() {
     return view('errors.404')->with(['uinfo' => auth()->user(), 'activeSidebar' => 'null']);
 })->where('url', '.*');

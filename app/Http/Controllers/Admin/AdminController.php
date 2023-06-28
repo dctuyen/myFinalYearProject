@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Library\Helper;
-use App\Models\Classes;
 use App\Models\Course;
 use App\Models\Fee;
-use App\Models\Shift;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -25,6 +23,7 @@ class AdminController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('auth');
     }
 
     public function courseManagement(Request $request)
@@ -117,7 +116,7 @@ class AdminController extends Controller
         $course->document = json_encode($listDocs, JSON_THROW_ON_ERROR);
 
         if ($course->save()) {
-            return redirect()->route('admin.coursemanagement')->with('success', 'Lưu thông tin khóa học thành công!');
+            return redirect()->route('admin.editcourse', $course->id)->with('success', 'Lưu thông tin khóa học thành công!');
         }
         return redirect()->route('admin.coursemanagement')->with('error', 'Khóa học không tồn tại!');
 

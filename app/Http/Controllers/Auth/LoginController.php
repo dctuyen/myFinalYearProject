@@ -71,7 +71,9 @@ class LoginController extends Controller
                 if (auth()->user()->role_id === Constants::ADMIN_ROLE_ID) {
                     return redirect()->route('studentmanagement')->with('success', 'Đăng nhập thành công');
                 }
-                return redirect()->route('home')->with('success', 'Đăng nhập thành công');
+                if (auth()->user()->role_id === Constants::STUDENT_ROLE_ID)
+                    return redirect()->route('student.myclass')->with('success', 'Đăng nhập thành công');
+                return redirect()->route('classmanagement')->with('success', 'Đăng nhập thành công');
             }
             return redirect()->route('login')->with('error', 'Mật khẩu không đúng, vui lòng thử lại!');
         }

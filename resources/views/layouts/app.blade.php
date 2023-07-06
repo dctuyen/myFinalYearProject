@@ -52,9 +52,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
           integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
           crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
     @vite(['public/css/all.css', 'public/css/custom.css'])
     @vite(['resources/css/app.css'])
     @vite(['public/css/all.css', 'public/css/v4-shims.css'])
+
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -89,12 +97,14 @@
 
             <ul class="menu-inner py-1">
                 <!-- Dashboard -->
+                @if($uinfo->role_id == 1)
                 <li class="menu-item {{ $activeSidebar === 'home' ? 'active' : '' }}">
                     <a href="{{ route('studentmanagement') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <span>Trang chủ</span>
                     </a>
                 </li>
+                @endif
                 <li class="menu-item @if($activeSidebar === 'myaccount') active @endif">
                     <a href="{{ route('myaccount') }}" class="menu-link">
                         <i class="menu-icon tf-icons far fa-user"></i>
@@ -115,10 +125,6 @@
                             <li class="menu-item @if($activeSidebar === 'studentmanagement') active @endif">
                                 <a href="{{ route('studentmanagement') }}" class="menu-link">
                                     Quản lý học viên</a>
-                            </li>
-                            <li class="menu-item @if($activeSidebar === '') active @endif">
-                                <a href="{{ route('studentmanagement') }}" class="menu-link">
-                                    Chờ khai giảng</a>
                             </li>
                         </ul>
                     </li>
@@ -178,20 +184,89 @@
                         </ul>
                     </li>
                 @endif
+                @if($uinfo->role_id == 3)
 
+                    <li class="menu-item @if($activeSidebar === 'studentmanagement') active open @endif">
+                        <a href="{{ route('studentmanagement') }}" class="menu-link">
+                            <i class="fas fa-graduation-cap"></i>&emsp;<span>Học viên của tôi</span>
+                        </a>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === 'classmanagement' || $activeSidebar === 'classwaiting') active open @endif">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="far fa-pencil-ruler"></i>&emsp;<span>Lớp học</span>
+                        </a>
+
+                        <ul class="menu-sub">
+                            <li class="menu-item @if($activeSidebar === 'classmanagement') active @endif">
+                                <a href="{{ route('classmanagement') }}" class="menu-link">
+                                    Quản lý lớp học</a>
+                            </li>
+                            <li class="menu-item @if($activeSidebar === 'classwaiting') active @endif">
+                                <a href="{{ route('classmanagement.waiting') }}" class="menu-link">
+                                    Chờ khai giảng</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === 'schedule') active open @endif">
+                        <a href="{{ route('student.schedule') }}" class="menu-link">
+                            <i class="fas fa-calendar-alt"></i>&emsp;<span>Lịch học</span>
+                        </a>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === 'coursemanagement') active open @endif">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="far fa-list-ul"></i>&emsp;<span>Danh mục</span>
+                        </a>
+
+                        <ul class="menu-sub">
+                            <li class="menu-item @if($activeSidebar === 'coursemanagement') active @endif">
+                                <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
+                                    Danh sách khóa học</a>
+                            </li>
+                            <li class="menu-item @if($activeSidebar === 's') active @endif">
+                                <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
+                                    Danh sách ca học</a>
+                            </li>
+                            <li class="menu-item @if($activeSidebar === '') active @endif">
+                                <a href="#" class="menu-link">
+                                    Tài liệu</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
                 @if($uinfo->role_id == 2)
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Danh sách</span>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === 'myclass') active open @endif">
+                        <a href="{{ route('student.myclass') }}" class="menu-link">
+                            <i class="far fa-pencil-ruler"></i>&emsp;<span>Lớp học của tôi</span>
+                        </a>
                     </li>
                     <li class="menu-item @if($activeSidebar === 'student.index') active open @endif">
                         <a href="{{ route('student.index') }}" class="menu-link">
                             <i class="far fa-books"></i>&emsp;<span>Danh sách khóa học</span>
                         </a>
                     </li>
-                    <li class="menu-item @if($activeSidebar === '') active open @endif">
-                        <a href="{{ route('student.index') }}" class="menu-link">
-                            <i class="far fa-pencil-ruler"></i>&emsp;<span>Lớp học của tôi</span>
+                    <li class="menu-item @if($activeSidebar === 'schedule') active open @endif">
+                        <a href="{{ route('student.schedule') }}" class="menu-link">
+                            <i class="fas fa-calendar-alt"></i>&emsp;<span>Lịch học</span>
                         </a>
+                    </li>
+                    <li class="menu-item @if($activeSidebar === '') active open @endif">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="far fa-list-ul"></i>&emsp;<span>Danh mục</span>
+                        </a>
+
+                        <ul class="menu-sub">
+                            <li class="menu-item @if($activeSidebar === 's') active @endif">
+                                <a href="{{ route('admin.coursemanagement') }}" class="menu-link">
+                                    Học phí</a>
+                            </li>
+                            <li class="menu-item @if($activeSidebar === '') active @endif">
+                                <a href="#" class="menu-link">
+                                    Tài liệu</a>
+                            </li>
+                        </ul>
                     </li>
                 @endif
             </ul>
@@ -405,8 +480,11 @@
     $('#btnSearch').on('click', function () {
         let currentUrl = window.location.href;
         let realUrl = currentUrl.split("?")[0];
+        let request = currentUrl.split("?")[1];
         let searchData = $('#searchData').val();
-        window.location.href = realUrl + '?search=' + searchData;
+
+        request = request.replace(/search=([^&]*)&/, '');
+        window.location.href = realUrl + '?search=' + searchData + '&' + request;
     });
 
     $('#searchData').on('keydown', function () {

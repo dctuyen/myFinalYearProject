@@ -60,6 +60,7 @@ Route::get( 'createaccount', [App\Http\Controllers\HomeController::class, 'new']
 Route::get( 'account', [App\Http\Controllers\HomeController::class, 'new'])->name('account');
 Route::get( 'account/my', [App\Http\Controllers\HomeController::class, 'new'])->name('myaccount');
 Route::get('account/edit/{id}', [App\Http\Controllers\HomeController::class, 'new'])->name('admin.editaccount');
+Route::get('account/view/{id}', [App\Http\Controllers\HomeController::class, 'new'])->name('admin.viewaccount');
 
 /* Student info */
 Route::get('student', [App\Http\Controllers\HomeController::class, 'usermanagement'])->name('studentmanagement');
@@ -81,6 +82,8 @@ Route::get('class/edit/{id}', [App\Http\Controllers\HomeController::class, 'clas
 Route::delete('class/delete/{id}', [App\Http\Controllers\HomeController::class, 'deleteclass'])->name('deleteclass');
 Route::post('saveclass', [App\Http\Controllers\HomeController::class, 'saveclass'])->name('saveclass');
 Route::post('class/checkname', [App\Http\Controllers\HomeController::class, 'checkExistsClassName'])->name('ajax.checkname');
+Route::get('class/view/{id}', [App\Http\Controllers\HomeController::class, 'class'])->name('viewclass');
+Route::get('class/student/{id}', [App\Http\Controllers\HomeController::class, 'usermanagement'])->name('viewclassstudent');
 
 /* SHIFT info */
 Route::get('shift', [App\Http\Controllers\HomeController::class, 'shiftmanagement'])->name('shiftmanagement');
@@ -93,6 +96,9 @@ Route::post('shift/checkname', [App\Http\Controllers\HomeController::class, 'che
 /* Student */
 Route::get('index', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
 Route::get('course/class', [App\Http\Controllers\StudentController::class, 'listClass'])->name('listclass');
+Route::post('class/join', [App\Http\Controllers\StudentController::class, 'joinclass'])->name('joinclass');
+Route::get('my/class', [App\Http\Controllers\StudentController::class, 'myclass'])->name('student.myclass');
+Route::get('schedule', [App\Http\Controllers\StudentController::class, 'schedule'])->name('student.schedule');
 
 
 Route::any('{url}', static function() {

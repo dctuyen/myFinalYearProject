@@ -6,8 +6,6 @@ use App\Library\Constants;
 use App\Library\Helper;
 use App\Models\Classes;
 use App\Models\Course;
-use App\Models\Enrollment;
-use App\Models\Fee;
 use App\Models\Shift;
 use App\Models\User;
 use Exception;
@@ -105,6 +103,10 @@ class HomeController extends Controller
             $data['activeSidebar'] = 'studentmanagement';
         } elseif ($routeName === 'newteacher' || $routeName === 'account/edit/{id}') {
             $data['activeSidebar'] = 'teachermanagement';
+        } elseif ($routeName === 'account/view/{id}') {
+            $data['activeSidebar'] = 'none';
+            $data['action'] = 'view';
+            $data['backurl'] = url()->previous();
         }
         return view('account')->with($data);
     }
@@ -211,6 +213,7 @@ class HomeController extends Controller
             'activeSidebar' => 'classmanagement'
         ];
         $data['action'] = 'new';
+        $routeName = Route::current()->uri;
         $classId = $request->id;
         if (!Helper::IsNullOrEmptyString($classId)) {
             $classEdit = Classes::where('id', '=', $classId)->first();
@@ -219,6 +222,18 @@ class HomeController extends Controller
             }
             $data['class'] = $classEdit;
             $data['action'] = 'edit';
+            if ($routeName === 'class/view/{id}') {
+                $data['action'] = 'view';
+                $data['backurl'] = url()->previous();
+                $data['activeSidebar'] = 'none';
+                $course = Course::where('id', '=', $classEdit->course_id)->first();
+                if (!Helper::IsNullOrEmptyString($course->document)) {
+                    $data['listCertificate'] = json_decode($course->document, false, 512, JSON_THROW_ON_ERROR);
+                    foreach ($data['listCertificate'] as $key => $document) {
+                        $data['listCertificate'][$key] = get_object_vars($document);
+                    }
+                }
+            }
         }
 
         $listCourses = Course::all();
@@ -325,8 +340,8 @@ class HomeController extends Controller
     public function userManagement(Request $request): Factory|View|Application
     {
         $searchData = $request->search;
-         $routeName = Route::current()->uri;
-        if ($routeName === 'student') {
+        $routeName = Route::current()->uri;
+        if ($routeName === 'student' || $routeName = 'account/view/{id}') {
             $role_id = Constants::STUDENT_ROLE_ID;
             $title = 'Học Viên';
         } else if ($routeName === 'teacher') {
@@ -337,15 +352,26 @@ class HomeController extends Controller
             $title = 'Nhân Viên Chăm Sóc';
         }
 
-        $allUsers = User::query();
+        $allUsers = DB::table('Users')
+            ->leftJoin('Enrollments', 'Enrollments.student_id', '=', 'Users.id')
+            ->leftJoin('Classes', 'Classes.id', '=', 'Enrollments.class_id')
+            ->select('Users.*');
+
+
         if (!Helper::IsNullOrEmptyString($searchData)) {
             $allUsers->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%$searchData%'")
                 ->orWhereRaw("email LIKE '%$searchData%'")
                 ->orWhereRaw("phone LIKE '%$searchData%'");
         }
-
+        $uinfo = auth()->user();
         $allUsers->where('role_id', '=', $role_id);
+        if ($uinfo->role_id == Constants::TEACHER_ROLE_ID) {
+            $allUsers->where('Classes.teacher_id', '=', $uinfo->id);
+        }
 
+        if (!Helper::IsNullOrEmptyString($request->id)) {
+            $allUsers->where('Classes.id', '=', $request->id);
+        }
         $allUsers = $allUsers->orderBy('id', 'DESC')->paginate(20);
         foreach ($allUsers as $user) {
             $creator = User::find($user->creator);

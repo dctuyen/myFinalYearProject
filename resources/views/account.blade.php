@@ -15,7 +15,7 @@
                 </td>
             </tr>
         </table>
-        <form method="POST" action="{{ route('editaccount') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('editaccount') }}" enctype="multipart/form-data" id="formInfo">
             @csrf
             <div class="row p-3">
                 <div class="col-md-6">
@@ -25,7 +25,7 @@
                                    style="padding-left: 0">{{ __('Họ') }}</label>
                             <input id="firstname" type="text" required autocomplete="firstname"
                                    class="form-control @error('firstname') is-invalid @enderror" name="firstname"
-                                   value="@if($action === 'edit') {{ $userEdit->first_name }} @endif"
+                                   value="@if($action === 'edit' or $action === 'view') {{ $userEdit->first_name }} @endif"
                                    oninvalid="this.setCustomValidity('Vui lòng nhập Họ')"
                                    oninput="this.setCustomValidity('')">
                         </div>
@@ -34,7 +34,7 @@
                             <label for="lastname" class="col-form-label fw-bolder">{{ __('Tên') }}</label>
                             <input id="lastname" type="text" required autocomplete="lastname"
                                    class="form-control @error('lastname') is-invalid @enderror" name="lastname"
-                                   value="@if($action === 'edit') {{  $userEdit->last_name }} @endif"
+                                   value="@if($action === 'edit' or $action === 'view') {{  $userEdit->last_name }} @endif"
                                    oninvalid="this.setCustomValidity('Vui lòng nhập Tên')"
                                    oninput="this.setCustomValidity('')">
                         </div>
@@ -48,10 +48,10 @@
                             <select class="form-select form-select-md" aria-label=".form-select-lg example"
                                     id="sex" name="sex">
                                 <option selected disabled>Chọn giới tính</option>
-                                <option @if ($userEdit->sex === 'male' && $action === 'edit') selected
+                                <option @if ($userEdit->sex === 'male' && $action === 'edit' or $action === 'view') selected
                                         @endif value="male">Nam
                                 </option>
-                                <option @if ($userEdit->sex === 'female' && $action === 'edit') selected
+                                <option @if ($userEdit->sex === 'female' && $action === 'edit' or $action === 'view') selected
                                         @endif value="female">Nữ
                                 </option>
                             </select>
@@ -61,7 +61,7 @@
                                 {{ __('Ngày sinh') }}
                             </label>
                             <input id="birthday" type="date" required autocomplete="birthday"
-                                   value="@if($action === 'edit'){{ $userEdit->birthday }}@endif" class="form-control"
+                                   value="@if($action === 'edit' or $action === 'view'){{ $userEdit->birthday }}@endif" class="form-control"
                                    name="birthday">
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                                 {{ __('Địa chỉ') }}
                             </label>
                             <input id="address" type="text" required autocomplete="address"
-                                   value="@if($action === 'edit') {{ $userEdit->address }} @endif" class="form-control"
+                                   value="@if($action === 'edit' or $action === 'view') {{ $userEdit->address }} @endif" class="form-control"
                                    name="address">
                         </div>
                     </div>
@@ -86,7 +86,7 @@
 
                             <input id="email" name="email" type="email"
                                    class="form-control @error('email') is-invalid @enderror"
-                                   @if($action === 'edit') value="{{ $userEdit->email }} " readonly @endif required
+                                   @if($action === 'edit' or $action === 'view') value="{{ $userEdit->email }} " readonly @endif required
                                    autocomplete="email" autofocus
                                    placeholder="Email đăng nhập hệ thống"
                                    oninvalid="this.setCustomValidity('Vui lòng nhập email')"
@@ -106,7 +106,7 @@
 
                             <input id="phone" name="phone" type="text"
                                    class="form-control @error('phone') is-invalid @enderror"
-                                   value="@if($action === 'edit') {{ $userEdit->phone }} @endif" required
+                                   value="@if($action === 'edit' or $action === 'view') {{ $userEdit->phone }} @endif" required
                                    autocomplete="phone" autofocus
                                    oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại')"
                                    oninput="this.setCustomValidity('')">
@@ -152,7 +152,7 @@
                                 <p class="btn btn-danger vertical-text col-md-3">Chọn Avatar</p>
                                 <div style="height: 160px;" class="col-md-9">
                                     <img
-                                        @if($action === 'edit') src="{{ asset($userEdit->background_url) }}" @endif
+                                        @if($action === 'edit' or $action === 'view') src="{{ asset($userEdit->background_url) }}" @endif
                                     alt="" id="avatarView" style="width: 100%; height: 100%">
                                 </div>
                             </label>
@@ -240,6 +240,11 @@
 
             <div class="row ms-3 mt-5">
                 <div class="mt-2 col-md-6">
+                    @if ($action == 'view')
+                        <a href="{{ $backurl }}" class="btn btn-primary me-2" id="backButton"
+                           data-toggle="tooltip" title="Quay lại">Quay lại
+                        </a>
+                    @endif
                     <button type="submit" class="btn btn-primary me-2" id="btnSubmit" data-toggle="tooltip"
                             title="Lưu thông tin">Lưu
                     </button>
@@ -253,6 +258,21 @@
 
 @section('script')
     <script type="text/javascript">
+        $(document).ready(function () {
+            if ($('#action').val() === 'view') {
+                let form = document.getElementById("formInfo");
+                let inputs = form.getElementsByTagName("input");
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].readOnly = true;
+                }
+                let buttons = document.getElementsByTagName("button");
+
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = "none";
+                }
+
+            }
+        })
         function addRow() {
             let getRow = document.querySelectorAll("#listCertificate tr");
             let key = getRow.length;

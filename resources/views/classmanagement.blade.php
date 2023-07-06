@@ -25,11 +25,10 @@
                     <th>STT</th>
                     <th>Tên Lớp</th>
                     <th>Giảng viên</th>
-                    <th>Người Chăm Sóc</th>
-                    <th>Thời Gian</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Thời gian</th>
                     <th>Ca học</th>
                     <th>Số lượng học viên</th>
-                    <th>Người Tạo</th>
                     <th>Thao Tác</th>
                 </tr>
                 </thead>
@@ -47,8 +46,10 @@
                     <tr data-key="{{ $key }}">
                         <td>{{ $key + 1 }}</td>
                         <td>
-                            {{ $class->name }} <br>
-                            Thuộc khóa: <i>{{ $class->course_name }}</i>
+                            <a href="{{ route('viewclassstudent', $class->id) }}" title="Thông tin lớp học">
+                                {{ $class->name }} <br>
+                                Thuộc khóa: <i>{{ $class->course_name }}</i>
+                            </a>
                         </td>
                         <td>{{ $class->teacher }} <br>
                             {{ $class->teacher_email }}
@@ -71,7 +72,7 @@
                             @if ($class->status === 1)
                                 <span class="badge bg-label-success me-1 text-capitalize">Hoạt động</span>
                             @elseif ($class->status === 2)
-                                <span class="badge bg-label-warning me-1 text-capitalize">Chờ kích hoạt</span>
+                                <span class="badge bg-label-warning me-1 text-capitalize">Chờ khai giảng</span>
                             @elseif ($class->status === 0)
                                 <span class="badge bg-label-danger me-1 text-capitalize">Không hoạt động</span>
                             @endif

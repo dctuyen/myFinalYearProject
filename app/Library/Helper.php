@@ -90,6 +90,51 @@ class Helper
         $str = str_replace($marTViet, $marKoDau, $text);
 
         return $str;
+    }
 
+    public static function getday($datecreate)
+    {
+        $thang = date("m", $datecreate);
+        $ngay = date("d", $datecreate);
+        $nam = date("Y", $datecreate);
+        $jd = cal_to_jd(CAL_GREGORIAN, $thang, $ngay, $nam);
+        $day = jddayofweek($jd, 0);
+        switch ($day) {
+            case 0:
+                $thu = "Chủ Nhật";
+                break;
+            case 1:
+                $thu = "Thứ Hai";
+                break;
+            case 2:
+                $thu = "Thứ Ba";
+                break;
+            case 3:
+                $thu = "Thứ Tư";
+                break;
+            case 4:
+                $thu = "Thứ Năm";
+                break;
+            case 5:
+                $thu = "Thứ Sáu";
+                break;
+            case 6:
+                $thu = "Thứ Bảy";
+                break;
+        }
+        return $thu;
+    }
+
+    public static function formatMoney($number, $decimals = 2, $decPoint = '', $thousandsSep = ',') {
+        $negative = $number < 0 ? '-' : '';
+        $number = abs($number);
+        $integerPart = (int) $number;
+        $decimalPart = ($decimals > 0) ? $decPoint . substr(abs($number - $integerPart), 2, $decimals) : '';
+
+        $formattedNumber = $negative;
+        $formattedNumber .= number_format($integerPart, 0, '', $thousandsSep);
+        $formattedNumber .= $decimalPart;
+
+        return $formattedNumber;
     }
 }

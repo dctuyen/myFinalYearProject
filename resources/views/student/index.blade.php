@@ -15,7 +15,7 @@
                         </p>
                         <div style="display: flex; justify-content: space-between;">
                             <a href="{{ route('listclass') }}?course={{ $course->id }} " class="btn btn-primary col-md-5">Đăng ký học</a>
-                            <span class="text-warning col-md-5 fw-bold mt-2" style="text-align: center;">Giá: {{ $course->price }}</span>
+                            <span class="text-warning col-md-5 fw-bold mt-2" style="text-align: center;">Giá: {{ $course->price }} vnđ </span>
                         </div>
                     </div>
                 </div>

@@ -153,7 +153,8 @@ class HomeController extends Controller
         for ($i = 0; $i < 80; $i++) {
             while (true) {
                 $student = User::where('role_id', '=', 2)->inRandomOrder()->first()->id;
-                $class = Classes::where("start_date", '<=', date('Y-m-d'))->inRandomOrder()->first();
+//                $class = Classes::where("start_date", '<=', date('Y-m-d'))->inRandomOrder()->first();
+                $class = Classes::where('id', '=', '1')->first();
                 $classesInCourse = Classes::where('course_id', $class->course_id)->get();
                 $exist = false;
                 foreach ($classesInCourse as $cl) {

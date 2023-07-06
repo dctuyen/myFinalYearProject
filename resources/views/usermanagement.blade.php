@@ -7,8 +7,10 @@
     <div class="card">
         <h4 class="card-header">Danh Sách {{ $title }}</h4>
         <div class="row mx-4 mb-4">
+            @if ($uinfo->role_id == 1)
             <a href="{{ route('admin.newstudent') }}" class="btn btn-info rounded-pill col-md-2">
                 <i class="fas fa-plus-circle"></i> Thêm mới</a>
+            @endif
             <p class="col-md-8"></p>
             <p class="col-md-1 text-nowrap fw-bold info" style="padding-left: 0 !important;">
                 @if ($users->total() > 0)
@@ -45,44 +47,44 @@
                 @foreach($users as $key => $user)
                     <tr data-key="{{ $key }}">
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $user['first_name'] }}</td>
-                        <td>{{ $user['last_name'] }}</td>
+                        <td>{{ $user->first_name }}</td>
+                        <td>{{ $user->last_name }}</td>
                         <td>
                             Giới tính:
-                            @if ($user['sex'] === 'male')
+                            @if ($user->sex === 'male')
                                 Nam
                             @else
                                 Nữ
                             @endif
                             <br>
                             Ngày sinh:
-                            {{ $user['birthday'] }}
+                            {{ $user->birthday }}
                             <br>
                             Địa chỉ:
-                            {{ $user['address'] }}</td>
+                            {{ $user->address }}</td>
                         <td>
-                            Email: {{ $user['email'] }}
+                            Email: {{ $user->email }}
                             <br>
-                            SĐT: <strong>{{ $user['phone'] }}</strong>
+                            SĐT: <strong>{{ $user->phone }}</strong>
                         </td>
-                        <td><img src="{{ asset($user['background_url']) }}" style="height: 50px" alt=""></td>
+                        <td><img src="{{ asset($user->background_url) }}" style="height: 50px" alt=""></td>
                         <td>
-                            {{ $user['creator_email'] }}<br>
-                            @if ($user['status'] === 1)
+                            {{ $user->creator_email }}<br>
+                            @if ($user->status === 1)
                                 <span class="badge bg-label-success me-1 text-capitalize">Hoạt động</span>
-                            @elseif ($user['status'] === 2)
+                            @elseif ($user->status === 2)
                                 <span class="badge bg-label-warning me-1 text-capitalize">Chờ kích hoạt</span>
-                            @elseif ($user['status'] === 0)
+                            @elseif ($user->status === 0)
                                 <span class="badge bg-label-danger me-1 text-capitalize">Không hoạt động</span>
                             @endif
-                            <br>{{ $user['created_at'] }}
+                            <br>{{ $user->created_at }}
                         </td>
                         <td>
                             <a class="btn btn-warning rounded-pill btn-icon me-2" data-togle="tooltip" title="Chỉnh sửa"
-                               href="{{ route('admin.editaccount', $user['id']) }}">
+                               href="{{ route('admin.editaccount', $user->id) }}">
                                 <i class="fal fa-edit"></i></a>
                             <button class="btn btn-danger rounded-pill btn-icon" data-togle="tooltip" title="Xóa"
-                                    onclick="loadDeleteModal({{ $key }}, {{ $user['id'] }}, '{{ $user['email'] }}')"
+                                    onclick="loadDeleteModal({{ $key }}, {{ $user->id }}, '{{ $user->email }}')"
                             ><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
